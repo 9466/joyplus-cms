@@ -6,10 +6,10 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
-			'connectionString' => 'mysql:host=localhost;dbname=ijoyplus;port=3306',
+			'connectionString' => 'mysql:host=localhost;dbname=joyplus;port=',
 			'emulatePrepare' => true,
-			'username' => 'joyplus',
-			'password' => 'ilovetv001', //ilovetv001
+			'username' => 'root',
+			'password' => '', //ilovetv001
 			'charset' => 'utf8',
 		    'enableParamLogging'=>true,
 		
