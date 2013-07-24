@@ -1,6 +1,7 @@
 <?php
 require_once (dirname(__FILE__)."/YouKuContent.php");
 require_once (dirname(__FILE__)."/LetvContent.php");
+require_once (dirname(__FILE__)."/JoyplusContent.php");
 require_once (dirname(__FILE__)."/PPTVContent.php");
 require_once (dirname(__FILE__)."/SohuContent.php");
 require_once (dirname(__FILE__)."/SinaContent.php");
@@ -40,7 +41,11 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   	
   	public static function getContentProvider($providerName){
   		if(ContentProviderFactory::LETV===$providerName ){
-  			return new LetvContent();
+  			return new LetvContent();               
+  		}else if('le_tv_fee'===$providerName ){
+               $content= new JoyplusContent();
+               $content->from='letv';
+               return $content;
   		}else if(ContentProviderFactory::TU_DOU===$providerName ){
 //  			return new TudouContent();
                return new DefaultContent();
@@ -54,7 +59,9 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   		}else if(ContentProviderFactory::FENG_XING===$providerName ){
   			return new FengXingContent();
   		} else if(ContentProviderFactory::SOHU===$providerName ){
-  			return new DefaultContent();
+  			   $content= new JoyplusContent();
+               $content->from='sohu';
+               return $content;
   		}else if(ContentProviderFactory::SINA===$providerName ){
   			return new SinaContent();
   		}else if(ContentProviderFactory::QI_YI===$providerName ){
@@ -148,7 +155,7 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   }
   
 //  var_dump(getPage("http://www.56.com/u42/v_NjY3MTUyOTU.html", "utf-8"));
-//echo ContentProviderFactory::getContentProvider(ContentProviderFactory::FENG_XING)->parseAndroidVideoUrl("http://www.funshion.com/subject/play/13376/1", "utf-8", "");
+//echo ContentProviderFactory::getContentProvider(ContentProviderFactory::SOHU)->parseIOSVideoUrl("http://tv.sohu.com/20130722/n382260297.shtml", "utf-8", "");
 // echo getLocation("http://m.letv.com/playvideo.php?id=1779637&mmsid=19536676");
 //  if( ContentProviderFactory::checkHtmlCanPlay(ContentProviderFactory::YOU_KU,"http://v.youku.com/v_show/id_XNDkxMTg4MDg.html")){
 //  	echo 'can play';
