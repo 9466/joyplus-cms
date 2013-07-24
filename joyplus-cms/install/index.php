@@ -194,7 +194,7 @@ function stepA()
 	<th class="padleft">当前状态</th>
 </tr>
 EOT;
-	$arr = array("inc/config.php","inc/config.ftp.php","inc/config.interface.php","inc/cache.php","inc/timmingset.xml","inc/vodarea.txt","inc/vodlang.txt","upload/","upload/vod/","upload/topic/","upload/cache/","upload/export/","upload/thirdpartlogo/","install/index.php","log");
+	$arr = array("inc/config.php","inc/cache.php","inc/timmingset.xml","inc/vodarea.txt","inc/vodlang.txt","upload/","upload/vod/","upload/topic/","upload/cache/","upload/export/","upload/thirdpartlogo/","install/index.php","log");
 	foreach($arr as $f){
 		$st="可写";
 		$cs="w";
