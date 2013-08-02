@@ -269,32 +269,34 @@ class ProgramController extends Controller
 //			}
 
 			if($prod_type ==='1'){
-		       if(is_numeric($duration) && intval($duration)>0){       	  
+		       if(is_numeric($duration) && intval($duration)>=0){       	  
 		       	   $durations= intval($duration);
-		       	   $h=intval($durations/3600);
-		       	   $m=intval($durations%3600/60);
-		       	   $s=intval($durations%3600%60);
-		       	   $durations='';
-		       	   if($h>0){
-		       	   	$durations=$h.':';
-		       	   }else {
-		       	   	$durations='00:';
+		       	   if($durations>0){
+			       	   $h=intval($durations/3600);
+			       	   $m=intval($durations%3600/60);
+			       	   $s=intval($durations%3600%60);
+			       	   $durations='';
+			       	   if($h>0){
+			       	   	$durations=$h.':';
+			       	   }else {
+			       	   	$durations='00:';
+			       	   }
+			       	   if($m<10){
+			       	   	 $durations=$durations.'0'.$m.':';
+			       	   }else {
+			       	   	 $durations=$durations.$m.':';
+			       	   }
+			           if($s<10){
+			       	   	 $durations=$durations.'0'.$s;
+			       	   }else {
+			       	   	 $durations=$durations.$s;
+			       	   }			       	   
+			       	   Program::model()->updateDuraning($prod_id,$durations);
 		       	   }
-		       	   if($m<10){
-		       	   	 $durations=$durations.'0'.$m.':';
-		       	   }else {
-		       	   	 $durations=$durations.$m.':';
-		       	   }
-		           if($s<10){
-		       	   	 $durations=$durations.'0'.$s;
-		       	   }else {
-		       	   	 $durations=$durations.$s;
-		       	   }
-		       	   
-		       	   Program::model()->updateDuraning($prod_id,$durations);
 		       	   
 		       }else {
 		           try{
+		           	  if($duration ==='' || $duration ==='-1'){
 						$history = new VideoFeedback();		
 						$history->author_id=$userid;
 						$history->client=$HTTP_CLIENT;
@@ -304,6 +306,7 @@ class ProgramController extends Controller
 						$history->feedback_type='9';
 						$history->create_date=new CDbExpression('NOW()');
 						$history->save();
+		           	  }
 					} catch (Exception $e) {
 						Yii::log( CJSON::encode($e), "error");
 					}
