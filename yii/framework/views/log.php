@@ -24,11 +24,11 @@ foreach($data as $index=>$log)
 	if(isset($colors[$log[1]]))
 		$color=$colors[$log[1]];
 	$message='<pre>'.CHtml::encode(wordwrap($log[0])).'</pre>';
-	$time=date('H:i:s.',$log[3]).sprintf('%06d',(int)(($log[3]-(int)$log[3])*1000000));
+//	$time=date('H:i:s.',$log[3]).sprintf('%06d',(int)(($log[3]-(int)$log[3])*1000000));
 
 	echo <<<EOD
 	<tr style="background:{$color}">
-		<td align="center">{$time}</td>
+		<td align="center"></td>
 		<td>{$log[1]}</td>
 		<td>{$log[2]}</td>
 		<td>{$message}</td>

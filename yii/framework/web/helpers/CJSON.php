@@ -100,7 +100,7 @@ class CJSON
 				return $var ? 'true' : 'false';
 
 			case 'NULL':
-				return '';
+				return '"EMPTY"'; 
 
 			case 'integer':
 				return (int) $var;
