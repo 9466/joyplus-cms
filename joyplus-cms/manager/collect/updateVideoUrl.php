@@ -13,21 +13,30 @@ require_once ("tools/ContentManager.php");
     $playfrom = be("all", "from"); 
 
     $action = be("all","action");
-    
+    writetofile("updateVideoUrl.log", 'id='.$id.',name='.$name.',playfrom='.$playfrom.',download_urls='.$download_urls);
     if(isN($id)){
+    	echo 'id is null';
+    	exit(-1);
+    }
+    
+    if(isN($playfrom)){
+    	echo 'playfrom is null';
     	exit(-1);
     }
     
     if(isN($download_urls)){
     	 global $db;
     	 $db->Add("tbl_video_feedback", array('prod_id','feedback_type','create_date'), array($id,'10',date('Y-m-d H:i:s',time())));
+    	 echo 'download url is null';
+    	 exit(-1);
+    }else {
+        
+		switch($action)
+		{   case "episode" :  editall();break; 
+			case "video" : updateVideoUrl($id,$playfrom);break;
+			default : updateVideoUrl($id,$playfrom);break;
+		}
     }
-    
-	switch($action)
-	{   case "episode" :  editall();break; 
-		case "video" : updateVideoUrl($id,$playfrom);break;
-		default : updateVideoUrl($id,$playfrom);break;
-	}
     
 	
 
@@ -35,7 +44,8 @@ require_once ("tools/ContentManager.php");
 		 if(!isN(playfrom)){
 	        global $db;		
 		 	writetofile("updateVideoUrl.log", 'check item for vod playfrom{=}'.$playfrom .'{=}id{=}'.$id);
-		    $sql = "SELECT webUrls,d_downurl, d_playfrom,d_id FROM {pre}vod WHERE  d_playfrom like '%".$playfrom."%'  and d_id=".$id;
+		 
+		    $sql = "SELECT webUrls,d_downurl, d_playfrom,d_id FROM {pre}vod WHERE  d_id=".$id;
 	        $rs = $db->query($sql); 
 		    parseVodPad($rs,$playfrom);
 		    unset($rs);
@@ -58,6 +68,13 @@ require_once ("tools/ContentManager.php");
        global $db; 
        writetofile('updateVideoUrl.log', 'd_id===='.$d_id);   		
 	   $playurlarr1 = explode("$$$",$webUrls);
+	   if($from ==='letv'){
+	   	writetofile('updateVideoUrl.log', 'd_playfrom===='.$d_playfrom  );
+	   	  if(strpos($d_playfrom, 'le_tv_fee') !==false){
+	   	  	 $from='le_tv_fee';
+	   	  }
+	   }
+	   writetofile('updateVideoUrl.log', 'from===='.$from);   
 	   $playfromarr = explode("$$$",$d_playfrom);
 	   $playurl='';
 	   for ($i=0;$i<count($playurlarr1);$i++){
