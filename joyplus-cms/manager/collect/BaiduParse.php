@@ -148,7 +148,12 @@ class BaiduParse{
 
 
 	static function parseMovieInfoByContent($content,$p_code,$type){
-		$contentSt= getBody($content, BaiduParse::contentparmStart, BaiduParse::contentparaend);
+		if($type =='131'){
+			$contentSt= getBody($content, "window.aldJson = [", BaiduParse::contentparaend);
+		}else{
+			$contentSt= getBody($content, BaiduParse::contentparmStart, BaiduParse::contentparaend);
+		}
+
 		$content=json_decode($contentSt);
 		$info= new VideoInfo();
 		if(is_object($content)){
@@ -339,66 +344,86 @@ class BaiduParse{
 	}
 
 	static function parseArrayShow($sitesObject){
-		$sites = array();
+
 		if (is_array($sitesObject)){
-			$sitesArray =$sitesObject;var_dump($sitesArray);
-			foreach($sitesArray as $siteObject){
-				$site = array();
-				if(is_object($siteObject)){
-				if (property_exists($siteObject, 'site_info') ){
-						$site_info = $siteObject->site_info;
-						if (is_object($site_info) && property_exists($site_info, 'name') ){
-							$site['site_name']=BaiduParse::getSite($site_info->name);
-						}
-						if (is_object($site_info) && property_exists($site_info, 'site') ){
-							$site['site_url']=$site_info->site;
-						}
-					}
-					/*if (property_exists($siteObject, 'years') ){
-						$years = $siteObject->years;
-						if (is_array($years)){
-							foreach ($years as $item){
-								$sites['years']=$item;
-							}
-						}
+			$sitesArray =$sitesObject;
+				
+			//			$len = count($sitesArray);
+			//            $lastVal = end($sitesArray);
+			//            && $lastVal == $sitesArray[$len - 1]
+			//			foreach($sitesArray as $siteObject){
+
+
+			$siteObject = end($sitesArray);
+			//				var_dump('aaaaaaaa');var_dump($siteObject);
+			if(is_object($siteObject) ){
+				//					var_dump($siteObject);
+				//				if (property_exists($siteObject, 'site_info') ){
+				//						$site_info = $siteObject->site_info;
+				//						if (is_object($site_info) && property_exists($site_info, 'name') ){
+				//							$site['site_name']=BaiduParse::getSite($site_info->name);
+				//						}
+				//						if (is_object($site_info) && property_exists($site_info, 'site') ){
+				//							$site['site_url']=$site_info->site;
+				//						}
+				//					}
+				/*if (property_exists($siteObject, 'years') ){
+				 $years = $siteObject->years;
+				 if (is_array($years)){
+				 foreach ($years as $item){
+				 $sites['years']=$item;
+				 }
+				 }
 					}
 					*/
-					$site['max_episode']='true';
-					if (property_exists($siteObject, 'episodes') ){
-						$episodesArray= $siteObject->episodes;
-						if(is_array($episodesArray)){
-							foreach ($episodesArray as $items) {
+					
+				if (property_exists($siteObject, 'episodes') ){
+					$episodesArray= $siteObject->episodes;
+					$sites = array();
+					//						var_dump('aaaaaaaaaa');var_dump($episodesArray);
+					if(is_array($episodesArray)){
+						foreach ($episodesArray as $items) {
+							//								var_dump('bbbbbbbb');var_dump($items);
+							$site = array();
+							$site['max_episode']='true';
 							$episodes = array();
-								if(is_array($items)){
-									foreach ($items as $item){
-										$episode = array(
+							if(is_array($items)){
+								foreach ($items as $item){
+									//										var_dump('ccccccc');var_dump($item);
+									$episode = array(
    							   	    'guest' =>'',
    							   	    'img_url' => '',
-										);
-										if (property_exists($item, 'single_title') ){
-											$episode['name']=$item->single_title;
-										}
-										if (property_exists($item, 'url') ){
-											$episode['url']=$item->url;
-										}
-										if(strpos($item->url, "baidu.com") !==false){
-											continue;
-										}
-										if (property_exists($item, 'episode') ){
-											$episode['episode']=$item->episode;
-										}
-										$episodes[]=$episode;
+									);
+									if (property_exists($item, 'single_title') ){
+										$episode['name']=$item->single_title;
+									}
+									if (property_exists($item, 'url') ){
+										$episode['url']=$item->url;
+									}
+									if(strpos($item->url, "baidu.com") !==false){
+										continue;
+									}
+									if (property_exists($item, 'episode') ){
+										$episode['episode']=$item->episode;
+									}
+									if (property_exists($item, 'site_url') ){
+										$site['site_name']=BaiduParse::getSite($item->site_url);
 
 									}
-							$site['episodes']=$episodes;
+									$episodes[]=$episode;
+
 								}
+								$site['episodes']=$episodes;
 							}
+							$sites[]=$site;
 						}
 					}
-					$sites[]=$site;
 				}
+					
 			}
+			//			}
 		}
+		//		var_dump($sites);
 		return $sites;
 	}
 
@@ -429,6 +454,22 @@ class BaiduParse{
 	  	    '56网'=>'56',//56网
 	  	    '56我乐'=>'56',//56我乐
 	  	    '华数TV'=>'wasu',
+		'iqiyi.com'=>'qiyi',
+			'sohu.com'=>'sohu',
+			'youku.com'=>'youku',
+			'tudou.com'=>'tudou',
+			'funshion.com'=>'fengxing',
+			'ku6.com'=>'ku6',
+			'sina.com.cn'=>'sinahd',
+			'kankan.com'=>'kankan',
+			'letv.com'=>'letv',
+			'qq.com'=>'qq',
+			'pps.tv'=>'pps',
+			'PPTV'=>'pptv',
+			'电影网'=>'m1905',
+			'CNTV'=>'cntv',
+	  	    '56.com'=>'56',//56网
+	  	    'wasu.cn'=>'wasu',
 		) ;
 		//	    if(array_key_exists($sitename,array_keys($PLAY_FROMS))){
 		//	    	var_dump($PLAY_FROMS[$sitename]);

@@ -6,7 +6,7 @@ class JoyplusContent extends Content{
 	public  $from;
 	private $p_videocodeApiUrlParamstart="\"rid\":\"";
 	private $p_videocodeApiUrlParamend="\"";
-	private $p_videocodeApiUrl="http://parseurl.joyplus.tv/"; //letv/?url=http://www.letv.com/ptv/pplay/85827.html
+	private $p_videocodeApiUrl="http://x/"; //letv/?url=http://www.letv.com/ptv/pplay/85827.html
 	private $p_videourlstart="\"data\":\"";
 	private $p_videourlend="\"}";  //http://v.pptv.com/show/rOeRD3fdTYvubNQ.html
 	
