@@ -155,7 +155,7 @@ function save()
 	if (strpos($d_enname, "*")>0 || strpos($d_enname, ":")>0 || strpos($d_enname, "?")>0 || strpos($d_enname, "\"")>0 || strpos($d_enname, "<")>0 || strpos($d_enname, ">")>0 || strpos($d_enname, "|")>0 || strpos($d_enname, "\\")>0){
 		echo "名称和拼音名称中: 不能出现英文输入状态下的 * : ? \" < > | \ 等特殊符号";exit;
 	}
-	if(strpos($d_downurl, "http") ===false){
+	if(strpos($d_downurl, "magnet") ===false &&  strpos($d_downurl, "ed2k") ===false && strpos($d_downurl, "http") ===false && strpos($d_downurl, "rtmp") ===false  && strpos($d_downurl, "rtsp") ===false  && strpos($d_downurl, "mmsh") ===false  && strpos($d_downurl, "mms") ===false  ){
 		//iPad,iphone,apad,aphone,web
 		$can_search_device="iPad,iphone,apad,aphone,web";
 	}
