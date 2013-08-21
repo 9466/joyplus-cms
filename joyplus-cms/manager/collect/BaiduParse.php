@@ -467,7 +467,7 @@ class BaiduParse{
 			'pps.tv'=>'pps',
 			'PPTV'=>'pptv',
 			'电影网'=>'m1905',
-			'CNTV'=>'cntv',
+			'cntv.cn'=>'cntv',
 	  	    '56.com'=>'56',//56网
 	  	    'wasu.cn'=>'wasu',
 		) ;

@@ -246,8 +246,11 @@ private static function genTV($program,$flag){
 		return $numPlatformUrl;
    }
    private static function urlValid($url){
-   	 $urlValid= new CUrlValidator();
-   	 return $urlValid->validateValue($url);
+   	 if(strpos($url, "magnet") ===false &&  strpos($url, "ed2k") ===false &&  strpos($url, "http") ===false && strpos($url, "rtmp") ===false  && strpos($url, "rtsp") ===false  && strpos($url, "mmsh") ===false  && strpos($url, "mms") ===false  ){
+         return false;
+       }else {
+         return true;
+       } 
    }
   
    public static function parseDownVideoUrls($url,$tmpplayfrom){
