@@ -79,7 +79,7 @@ function show_header()
 </head>
 <div class="container">
 	<div class="header">
-		<span>版本号：V1.2</span>
+		<span>版本号：V1.3</span>
 		<h1>悦视频视频管理系统 安装向导</h1>
 EOT;
 }
