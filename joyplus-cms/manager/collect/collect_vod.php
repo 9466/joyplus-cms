@@ -62,8 +62,8 @@ function IDInflowZhuiJu()
 		while ($row = $db ->fetch_array($rs))
 		{   $typeid = $row["m_typeid"];
 		if($typeid ==='2' || $typeid ==='3' || $typeid ==='131'){
-			$db->Add('mac_cj_zhuiju', array("m_id", "m_pid", "m_name", "m_typeid", "m_playfrom", "m_urltest"),
-			array($row["m_id"], $row["m_pid"], $row["m_name"], $typeid, $row["m_playfrom"], $row["m_urltest"]));
+			$db->Add('mac_cj_zhuiju', array("m_id", "m_pid", "m_name", "m_typeid", "m_playfrom", "m_urltest", "status"),
+			array($row["m_id"], $row["m_pid"], $row["m_name"], $typeid, $row["m_playfrom"], $row["m_urltest"], $row["m_state"]));
 		}
 		}
 		showmsg ("添加成功！",$backurl);
@@ -756,6 +756,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 			$duraning='';
 		}
 		//writetofile("gaoca.txt", $duraning);
+		echo "states: ".$d_state.isNum($d_state);
 		echo "remarks: ".isNum($d_remarks);
 		if(isNum($d_state)){
 			$sql="insert {pre}vod (d_pic_ipad,duraning,d_type_name,d_type,d_pic,d_addtime,d_time,d_year,d_content,d_hits,d_area,d_language,d_name,d_enname,d_starring,d_directed,d_state,d_remarks,d_capital_name) values('".$d_pi."' ,'".$duraning."' , '".$typeName."','".$d_type."','".$d_pic."','".$d_addtime."','".$d_addtime."','".$d_year."','".$d_content."','".$d_hits."','".$d_area."','".$d_language."','".$d_name."','".$d_enname."','".$d_starring."','".$d_directed."','".$d_state."','".$d_remarks."','".$d_capital_name."') ";

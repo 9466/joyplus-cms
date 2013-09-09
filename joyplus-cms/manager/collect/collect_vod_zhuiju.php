@@ -72,7 +72,7 @@ function main()
 	$project = be("get","cj_vod_projects");
 	$zt = be("get","zt");
 	
-	$sql="Select a.crontab_desc, a.m_id,a.m_name,a.m_typeid,a.m_urltest,m_playfrom ,b.p_name,status as p_name from {pre}cj_zhuiju a,{pre}cj_vod_projects b where a.m_pid=b.p_id  ";
+	$sql="Select a.crontab_desc, a.m_id,a.m_name,a.m_typeid,a.m_urltest,m_playfrom,a.status ,b.p_name from {pre}cj_zhuiju a,{pre}cj_vod_projects b where a.m_pid=b.p_id  ";
 	
 	if ($keyword != "") {
 		$keyword= trim($keyword);
@@ -175,7 +175,7 @@ $(document).ready(function(){
 	?> 
     <tr>
 	<td><input name="m_id[]" type="checkbox" id="m_id" value="<?php echo $t_id;?>" /></td>
-	<td><?php echo $row["m_name"]?>  (连载：<?php echo $row["status"]?>)</td>
+	<td><a href="collect_vod.php?action=edit&m_id=<?php echo $row["m_id"] ?>"><?php echo $row["m_name"]?>  (连载：<?php echo $row["status"]?>)</a></td>
 	
 	<td>
 		
