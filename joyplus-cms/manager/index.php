@@ -229,14 +229,14 @@ var menu = {
 	
 
 	
-	"m6":{"text":"用户管理","default":"manager","children":{"manager":{"text":"用户管理","url":"admin_manager.php"}}},
+	"m6":{"text":"用户管理","default":"manager","children":{"manager":{"text":"用户管理","url":"admin_manager.php"},"usergroup":{"text":"会员组","url":"admin_user_group.php"},"user":{"text":"会员","url":"admin_user.php"},"usercard":{"text":"充值卡","url":"admin_user_card.php"}}},
 	
 	
 	"m8":{"text":"采集管理","default":"vodcj","children":{"vodcj":{"text":"视频自定义采集","url":"collect/collect_vod_manage.php"},"artcjdatazhuiju":{"text":"追剧管理","url":"collect/collect_vod_zhuiju.php"},"vodcjdata":{"text":"入库管理","url":"collect/collect_vod.php?action=main"}}},
 
 	 "m9":{"text":"消息推送","default":"subscribe","children":{"wel":{"text":"介绍页面","url":"message_default.php"},"subscribe":{"text":"追剧推送","url":"admin_subscribe.php"},"onlinesubscribe":{"text":"实时推送","url":"admin_online_subscribe.php"}}},
 	"m7":{"text":"开放API","default":"api","children":{"api":{"text":"配置","url":"api_manager.php"}}},
-    "m10":{"text":"电视直播","default":"program","children":{"program":{"text":"电视频道管理","url":"admin_program.php"},"program_items":{"text":"节目单管理","url":"admin_program_items.php"},"program_play":{"text":"电视直播源管理","url":"admin_program_play.php"},"program_play_cj":{"text":"导入直播源","url":"admin_program_play_import.php"},"program_items_config":{"text":"相关配置","url":"admin_program_config.php"}}}, 
+    "m10":{"text":"电视直播","default":"program","children":{"program":{"text":"电视频道管理","url":"admin_program.php"},"program_items":{"text":"节目单管理","url":"admin_program_items.php"},"program_play":{"text":"电视直播源管理","url":"admin_program_play.php"},"program_play_cj":{"text":"导入直播源","url":"admin_program_play_import.php"},"program_items_config":{"text":"相关配置","url":"admin_program_config.php"}}} 
 	
 
 };
@@ -306,7 +306,6 @@ function login()
 {
 	?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

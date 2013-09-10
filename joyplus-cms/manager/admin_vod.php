@@ -2053,6 +2053,17 @@ $(document).ready(function(){
 		<td>豆瓣评分：<input id="d_score" name="d_score" type="text" size="8"
 			value="<?php echo $d_score?>"></td>
 	</tr>
+	<tr>
+	<td>权限：</td>
+	<td>
+	&nbsp;收费积分：<input id="d_stint" name="d_stint" type="text" size="8" value="<?php echo $d_stint?>">
+	&nbsp;可看会员组(向下兼容):
+	<select id="d_usergroup" name="d_usergroup">
+	<option value="0">请选择会员组</option>
+	<?php echo makeSelect("{pre}user_group","ug_id","ug_name","","","&nbsp;|&nbsp;&nbsp;",$d_usergroup)?>
+	</select>
+	</td>
+	</tr>
 
 	<tr>
 		<td colspan="2" style="padding: 0">
