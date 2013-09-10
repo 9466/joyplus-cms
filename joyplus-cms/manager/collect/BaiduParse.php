@@ -221,7 +221,7 @@ class BaiduParse{
 			}else if($type ===2 || $type ==='2'){
 				$url='http://video.baidu.com/movie_intro/?dtype=tvPlayUrl&service=json&id='.$vedio_id;
 			}else if($type ===3 || $type ==='3'){
-				$url='http://video.baidu.com/show_intro/?dtype=tvshowPlayUrl&service=json&id='.$vedio_id;
+				$url='http://v.baidu.com/show_intro/?dtype=tvshowPlayUrl&service=json&frp=browse&year=2013&id='.$vedio_id;
 			}else if($type ===131 || $type ==='131'){
 				$url='http://video.baidu.com/comic_intro/?dtype=comicPlayUrl&service=json&id='.$vedio_id;
 			}
@@ -238,7 +238,7 @@ class BaiduParse{
 			}else if($type ===2 || $type ==='2'){
 				$info->sites=BaiduParse::parseArrayTV($content);
 			}else if($type ===3 || $type ==='3'){
-				$info->sites =BaiduParse::parseArrayShow($content);
+				$info->sites =BaiduParse::parseArrayTV($content);
 			}else if($type ===131 || $type ==='131'){
 				$info->sites=BaiduParse::parseArrayTV($content);
 			}
@@ -466,7 +466,7 @@ class BaiduParse{
 			'qq.com'=>'qq',
 			'pps.tv'=>'pps',
 			'PPTV'=>'pptv',
-			'电影网'=>'m1905',
+			'm1905.com'=>'m1905',
 			'cntv.cn'=>'cntv',
 	  	    '56.com'=>'56',//56网
 	  	    'wasu.cn'=>'wasu',
