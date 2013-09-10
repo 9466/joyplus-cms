@@ -62,8 +62,8 @@ function IDInflowZhuiJu()
 		while ($row = $db ->fetch_array($rs))
 		{   $typeid = $row["m_typeid"];
 		if($typeid ==='2' || $typeid ==='3' || $typeid ==='131'){
-			$db->Add('mac_cj_zhuiju', array("m_id", "m_pid", "m_name", "m_typeid", "m_playfrom", "m_urltest", "status"),
-			array($row["m_id"], $row["m_pid"], $row["m_name"], $typeid, $row["m_playfrom"], $row["m_urltest"], $row["m_state"]));
+			$db->Add('mac_cj_zhuiju', array("m_id", "m_pid", "m_name", "m_typeid", "m_playfrom", "m_urltest"),
+			array($row["m_id"], $row["m_pid"], $row["m_name"], $typeid, $row["m_playfrom"], $row["m_urltest"]));
 		}
 		}
 		showmsg ("添加成功！",$backurl);
