@@ -229,7 +229,7 @@ var menu = {
 	
 
 	
-	"m6":{"text":"用户管理","default":"manager","children":{"manager":{"text":"用户管理","url":"admin_manager.php"},"usergroup":{"text":"会员组","url":"admin_user_group.php"},"user":{"text":"会员","url":"admin_user.php"},"usercard":{"text":"充值卡","url":"admin_user_card.php"}}},
+	"m6":{"text":"用户管理","default":"manager","children":{"manager":{"text":"用户管理","url":"admin_manager.php"},"usergroup":{"text":"会员组","url":"admin_user_group.php"},"user":{"text":"会员","url":"admin_user.php"}}},
 	
 	
 	"m8":{"text":"采集管理","default":"vodcj","children":{"vodcj":{"text":"视频自定义采集","url":"collect/collect_vod_manage.php"},"artcjdatazhuiju":{"text":"追剧管理","url":"collect/collect_vod_zhuiju.php"},"vodcjdata":{"text":"入库管理","url":"collect/collect_vod.php?action=main"}}},
