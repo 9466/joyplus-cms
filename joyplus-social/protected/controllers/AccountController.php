@@ -81,7 +81,37 @@ class AccountController extends Controller{
    			IjoyPlusServiceUtils::exportServiceError(Constants::SYSTEM_ERROR); 
    		} 
 	}
-	
+	function actionAuthWebUser(){	
+		
+	    header('Content-type: application/json');	
+	    if(!IjoyPlusServiceUtils::validateAPPKey()){
+              IjoyPlusServiceUtils::exportServiceError(Constants::APP_KEY_INVALID);		
+		  return ;
+		}
+	    if(IjoyPlusServiceUtils::validateUserID()){
+			IjoyPlusServiceUtils::exportServiceError(Constants::USER_ID_INVALID);	
+			return ;
+		}
+		
+		$name = Yii::app()->request->getParam("name");
+   		$pwd = Yii::app()->request->getParam("pwd");
+   		
+	    if( (!isset($name)) || is_null($name)  ){
+			IjoyPlusServiceUtils::exportServiceError(Constants::PARAM_IS_INVALID);
+			return;
+		}
+	    if( (!isset($pwd)) || is_null($pwd)  ){
+			IjoyPlusServiceUtils::exportServiceError(Constants::PARAM_IS_INVALID);
+			return;
+		}
+   		$webUser = WebUser::model()->authUser($name, $pwd);
+   		if($webUser ===false){
+   			IjoyPlusServiceUtils::exportServiceError(Constants::OBJECT_NOT_FOUND);
+			return;
+   		}else {
+   			IjoyPlusServiceUtils::exportEntity($webUser);
+   		}
+	}
 /**
 	 * login
 	 * Enter description here ...
