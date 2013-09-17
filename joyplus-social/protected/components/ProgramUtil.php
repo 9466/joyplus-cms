@@ -81,9 +81,16 @@ private static function genTV($program,$flag){
 	      'duration'=>$program->duraning,  
 	      'total_comment_number'=>$program->total_comment_number,
 	      'douban_id'=>$program->d_douban_id,
+	      'usergroup'=>$program->d_usergroup,
 //	      'typeName'=>$program->d_type_name  ,
 		);
+		
 	try{
+		if($program->d_usergroup !=null && $program->d_usergroup !='0'){
+			$prod['fee']=true;
+		}else {
+			$prod['fee']=false;
+		}
 		$tmpweburl = $program->webUrls;
 		$tmpplayfrom = $program->d_playfrom;
         $webUrlArray= ProgramUtil::getTVWebList($tmpweburl, $tmpplayfrom);
@@ -246,11 +253,11 @@ private static function genTV($program,$flag){
 		return $numPlatformUrl;
    }
    private static function urlValid($url){
-   	 if(strpos($url, "magnet") ===false &&  strpos($url, "ed2k") ===false &&  strpos($url, "http") ===false && strpos($url, "rtmp") ===false  && strpos($url, "rtsp") ===false  && strpos($url, "mmsh") ===false  && strpos($url, "mms") ===false  ){
+   	  if(strpos($url, "magnet") ===false &&  strpos($url, "ed2k") ===false &&  strpos($url, "http") ===false && strpos($url, "rtmp") ===false  && strpos($url, "rtsp") ===false  && strpos($url, "mmsh") ===false  && strpos($url, "mms") ===false  ){
          return false;
        }else {
          return true;
-       } 
+       }   	
    }
   
    public static function parseDownVideoUrls($url,$tmpplayfrom){

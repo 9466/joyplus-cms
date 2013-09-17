@@ -202,7 +202,7 @@ function edit(id)
 	  <td><input name="u_id[]" type="checkbox" value="<?php echo $u_id?>" /></td>
       <td><?php echo $row["u_name"]?></td>
       <td>
-	  <?php echo getUserFlag($row["u_flag"])?>
+	  <?php echo $row["u_flag"]?>
       </td>
       <td><?php
         $row1= $db->getRow("SELECT ug_name FROM {pre}user_group WHERE ug_id=".$row["u_group"]);
@@ -254,32 +254,12 @@ function edit(id)
 	</td>
     </tr>
     <tr>
-	<td>提示问题：</td>
-	<td><INPUT type="text" id="u_question" size=30 value="" name="u_question">
-	</td>
-    </tr>
-    <tr>
-	<td>提示回答：</td>
-	<td><INPUT type="text" id="u_answer" size=30 value="" name="u_answer">
-	</td>
-    </tr>
-    <tr>
 	<td>状态：</td>
 	<td>
 	<select id="u_status" name="u_status" style="width:100px;">
 	<option value=1>启动</option>
 	<option value=0>锁定</option>
 	</select>
-	</td>
-    </tr>
-    <tr>
-	<td>计费类型：</td>
-	<td>
-	<select name="u_flag" id="u_flag" style="width:100px;" onChange="showflag(this.options[this.selectedIndex].value)">
-	<option value="0" >计点</option>
-	<option value="1" >包时</option>
-	<option value="2" >网吧</option>
-	</select> 
 	</td>
     </tr>
 	<tr id="flag1" style="display:none">
@@ -303,11 +283,6 @@ function edit(id)
 	<option value="">请选择会员组</option>
 	<?php echo makeSelect("{pre}user_group","ug_id","ug_name","","","&nbsp;|&nbsp;&nbsp;","")?>
 	</select>
-	</td>
-    </tr>
-	<tr>
-	<td>积分：</td>
-	<td><INPUT id="u_points" type="text" size=10 value="0" name="u_points">
 	</td>
     </tr>
 	<tr>

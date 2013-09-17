@@ -103,7 +103,7 @@ $(document).ready(function(){
 			else{return false}
 	});
 	$("#btnAdd").click(function(){
-		$("#trnum").css("display","block");
+//		$("#trnum").css("display","block");
 		$('#form2').form('clear');
 		$("#flag").val("add");
 		$('#win1').window('open'); 
@@ -223,7 +223,7 @@ function edit(id)
 	<input id="c_id" name="c_id" type="hidden" value="">
 	<input id="flag" name="flag" type="hidden" value="">
 	<tr id="trnum">
-	<td width="30%">添加数量：</td>
+	<td >添加数量：</td>
 	<td><input id="num" name="num" size=20 value="">个
 	</td>
 	</tr>

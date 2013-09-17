@@ -140,42 +140,17 @@ function edit(id)
 </table>
 </form>
 
-<div id="win1" class="easyui-window" title="窗口" style="padding:5px;width:500px;" closed="true" closable="false" minimizable="false" maximizable="false">
+<div id="win1" class="easyui-window" title="窗口" style="padding:5px;margin-top: 30px;width:1000px;" closed="true" closable="false" minimizable="false" maximizable="false">
 <form action="admin_ajax.php?action=save&tab={pre}user_group" method="post" name="form2" id="form2">
 <table class="tb">
 	<input id="ugid" name="ugid" type="hidden" value="">
 	<input id="flag" name="flag" type="hidden" value="">
 	<tr>
-	<td width="35%">会员组名称：</td>
+	<td width="30%">会员组名称：</td>
 	<td><INPUT id="ug_name" size=20 value="" name="ug_name">
 	</td>
 	</tr>
-	<tr>
-	<td>包含分类：<br>(设置后游客无法看到此分类)</td>
-	<td>
-	<?php
-	$rs1 = $db->query("SELECT t_id,t_name FROM {pre}vod_type");
-	$i=0;
-	while ($row1 = $db ->fetch_array($rs1))
-	{
-		if (($i%3)==0){echo "<br>";}
-	?>
-	<input type="checkbox" name="ug_type[]" value="<?php echo $row1["t_id"]?>"/><?php echo $row1["t_name"]?>
-	<?php
-		$i++;
-	}
-	unset($rs1);
-	?>
-	</td>
-	</tr>
-	<tr>
-	<td>权限：<br></td>
-	<td>
-	<input type="checkbox" name="ug_popedom[]" value="1" checked/>浏览分类页
-	<input type="checkbox" name="ug_popedom[]" value="2" checked/>浏览内容页
-	<input type="checkbox" name="ug_popedom[]" value="3" checked/>浏览播放页
-	</td>
-    </tr>
+	
 	<tr>
 	<td>升级所需积分：<br>(使用积分购买组权限)</td>
 	<td>
