@@ -500,22 +500,38 @@ $(document).ready(function(){
 		}
 	});
 });
+function send(e){
+	if(e.keyCode==13){
+		  filter();
+    }
+}
+
+function filter(){
+	var keyword = $("#keyword").val();
+	var playfrom = $("#playfrom").val();
+	var page = $("#page").val();
+	var cj_vod_projects = $("#cj_vod_projects").val();
+	alert(page);
+	var url = "collect_vod.php?action=main&keyword="+keyword+"&playfrom="+playfrom+"&cj_vod_projects="+cj_vod_projects+"&page="+page; 
+	window.location.href=url;
+}
 </script>
 <TABLE width="96%" border=0 align=center cellpadding=0 cellSpacing=0
 	class=tbtitle>
 	<TBODY>
 		<tr>
 			<td>
-			<form action="collect_vod.php" method="get"><strong>搜索影片：</strong> <input
-				type="hidden" name="action" value="main"> <input id=keyword size=40
-				name=keyword value="<?php echo $keyword;?>"> <select id="playfrom"
-				name=playfrom>
+			<strong>搜索影片：</strong> 
+			 <input id=keyword size=40 name=keyword  onkeypress="send(event);" value="<?php echo $keyword;?>"> 
+				<select id="playfrom" name=playfrom>
 				<option value="">视频播放器</option>
 				<?php echo makeSelectPlayer($from)?>
-			</select> <select id="cj_vod_projects" name="cj_vod_projects">
+			</select> 
+			<select id="cj_vod_projects" name="cj_vod_projects">
 				<option value="">全部采集项目</option>
 				<?php echo makeSelect("{pre}cj_vod_projects","p_id","p_name","","","&nbsp;|&nbsp;&nbsp;",$project)?>
-			</select> <INPUT class=inputbut type=submit value=搜索 name=submit></form>
+			</select>
+			 <INPUT class=inputbut type=button onclick="filter()" value=搜索 >
 			</td>
 		</tr>
 	</TBODY>
@@ -1061,7 +1077,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 
 	if(strpos($tmpvideourl, "http") ===false){
 		//iPad,iphone,apad,aphone,web
-		$strSet .=" , can_search_device='iPad,iphone,apad,aphone,web'  ";
+		$strSet .=" , can_search_device='TV,iPad,iphone,apad,aphone,web'  ";
 	}
 
 	//	    writetofile("d:\\up.txt", $strSet);
