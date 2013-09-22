@@ -816,8 +816,10 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 			
 			
 		$strSet .=" d_type='".$d_type."', ";
-			
-		$strSet .=" d_type_name='".$typeName."', ";
+
+		if(!isN($typeName) && $typeName !=='未知'){
+		  $strSet .=" d_type_name='".$typeName."', ";
+		}
 			
 		$strSet .=" d_name='".$title."', ";
 			
