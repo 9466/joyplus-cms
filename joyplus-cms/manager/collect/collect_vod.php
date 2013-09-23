@@ -500,6 +500,7 @@ $(document).ready(function(){
 		}
 	});
 });
+
 </script>
 <TABLE width="96%" border=0 align=center cellpadding=0 cellSpacing=0
 	class=tbtitle>
@@ -800,8 +801,10 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 			
 			
 		$strSet .=" d_type='".$d_type."', ";
-			
-		$strSet .=" d_type_name='".$typeName."', ";
+
+		if(!isN($typeName) && $typeName!=='未知'){
+		  $strSet .=" d_type_name='".$typeName."', ";
+		}
 			
 		$strSet .=" d_name='".$title."', ";
 			
@@ -1061,7 +1064,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 
 	if(strpos($tmpvideourl, "http") ===false){
 		//iPad,iphone,apad,aphone,web
-		$strSet .=" , can_search_device='iPad,iphone,apad,aphone,web'  ";
+		$strSet .=" , can_search_device='TV,iPad,iphone,apad,aphone,web'  ";
 	}
 
 	//	    writetofile("d:\\up.txt", $strSet);
