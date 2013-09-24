@@ -1,5 +1,6 @@
 <?php
 require_once ("ContentManager.php");
+require_once ("ContentManager.php");
 class LetvContent extends Content{
 //3gphd ,3gp
 	const BASE_URL="http://m.letv.com/playvideo.php?id={id}&mmsid={mmsid}";
@@ -50,33 +51,119 @@ class LetvContent extends Content{
   		return $this->parseIOSVideoUrlByContent($content, $p_coding,$p_script);
   	}
   	
-  	private $p_videourlstart="{v:[\"";
-	private $p_videourlend="\"]";  //http://v.pptv.com/show/rOeRD3fdTYvubNQ.html
+  	private $p_videourlstart="vid:";
+	private $p_videourlend=",//视频ID";  //http://v.pptv.com/show/rOeRD3fdTYvubNQ.html
   	public function parseIOSVideoUrlByContent($content, $p_coding,$p_script){
   	   $videoUrlParam = getBody($content,$this->p_videourlstart,$this->p_videourlend);	
-//  	   var_dump($videoUrlParam);
-  	   $videoAddressUrl="";
-		 if(!isN($videoUrlParam)){					
-		    $videoUrls = explode("\",\"", $videoUrlParam);
-		    if(isset($videoUrls) && is_array($videoUrls)){
-			  if(count($videoUrls)==3){
-			  	$videoAddressUrl=MovieType::TOP_CLEAR.MovieType::VIDEO_NAME_URL_SEP.base64_decode($videoUrls[2]).MovieType::VIDEO_SEP_VERSION;
-			  	$videoAddressUrl=$videoAddressUrl.MovieType::HIGH_CLEAR.MovieType::VIDEO_NAME_URL_SEP.base64_decode($videoUrls[1]).MovieType::VIDEO_SEP_VERSION;
-			  	$videoAddressUrl=$videoAddressUrl.MovieType::NORMAL.MovieType::VIDEO_NAME_URL_SEP.base64_decode($videoUrls[0]);
-			  }else if(count($videoUrls)==2){
-			  	if(!isN($videoUrls[1])){
-			  	  $videoAddressUrl=MovieType::HIGH_CLEAR.MovieType::VIDEO_NAME_URL_SEP.base64_decode($videoUrls[1]).MovieType::VIDEO_SEP_VERSION;
-			  	  $videoAddressUrl=$videoAddressUrl.MovieType::NORMAL.MovieType::VIDEO_NAME_URL_SEP.base64_decode($videoUrls[0]);
-			  	}else {
-			  		$videoAddressUrl=$videoAddressUrl.MovieType::HIGH_CLEAR.MovieType::VIDEO_NAME_URL_SEP.base64_decode($videoUrls[0]);
-			  	}
-			  	
-			  }else if(count($videoUrls)==1){
-			  	$videoAddressUrl=MovieType::HIGH_CLEAR.MovieType::VIDEO_NAME_URL_SEP.base64_decode($videoUrls[0]);
-			  }
-		   }
-	      }
-	      return $videoAddressUrl;
+  	   
+  	   $url=replaceStr("http://www.letv.com/v_xml/{VID}.xml", '{VID}', $videoUrlParam);
+  	  
+  	   $content = getPageWindow($url, $this->p_code);
+  	   $content = getBody($content,'<playurl><![CDATA[',']]></playurl>');
+  	    
+  	    $contentObj= json_decode($content);
+  	    if(is_object($contentObj) && property_exists($contentObj, 'dispatch')){
+  	    	$contentObj= $contentObj->dispatch;
+  	    	if(is_object($contentObj)){
+  	    		$videoAddressUrl4="";
+  		        $videoAddressUrl1="";
+		  		$videoAddressUrl2="";
+		  		$videoAddressUrl3="";
+		  		//var_dump($contentObj);
+		  		$contentObj=ContentProviderFactory::obj2arr($contentObj);		  		
+		  		if( array_key_exists('720p', $contentObj)){
+		  			$urlArray=$contentObj['720p'];
+		  			if(is_array($urlArray)){
+		  				$tempUrl =$urlArray[0];
+		  				if(strpos($tempUrl, 'tss=ios') !==false){
+		  				  	$tempUrl=$this->getUrl($tempUrl);
+		  				}else {
+		  					$tempUrl=replaceStr($tempUrl, 'tss=no', 'tss=ios');
+		  				}
+		  				$videoAddressUrl4=MovieType::TOP_CLEAR  .MovieType::VIDEO_NAME_URL_SEP.$tempUrl;		  			  
+		  			}
+		  		}
+  	    	    if( array_key_exists('1300', $contentObj)){
+		  			$urlArray=$contentObj['1300'];
+		  			if(is_array($urlArray)){
+		  				$tempUrl =$urlArray[0];
+		  				if(strpos($tempUrl, 'tss=ios') !==false){
+		  				  	$tempUrl=$this->getUrl($tempUrl);
+		  				}else {
+		  					$tempUrl=replaceStr($tempUrl, 'tss=no', 'tss=ios');
+		  				}
+		  				$videoAddressUrl1=MovieType::HIGH_CLEAR  .MovieType::VIDEO_NAME_URL_SEP.$tempUrl;		  			  
+		  			}
+		  		}
+		  		
+  	    	    if( array_key_exists('1000', $contentObj)){
+		  			$urlArray=$contentObj['1000'];
+		  			if(is_array($urlArray)){
+		  				$tempUrl =$urlArray[0];
+		  				if(strpos($tempUrl, 'tss=ios') !==false){
+		  				  	$tempUrl=$this->getUrl($tempUrl);
+		  				}else {
+		  					$tempUrl=replaceStr($tempUrl, 'tss=no', 'tss=ios');
+		  				}
+		  				$videoAddressUrl2=MovieType::HIGH_CLEAR  .MovieType::VIDEO_NAME_URL_SEP.$tempUrl;		  			  
+		  			}
+		  		}
+  	    	
+  	    	    if( array_key_exists('350', $contentObj)){
+		  			$urlArray=$contentObj['350'];
+		  			if(is_array($urlArray)){
+		  				$tempUrl =$urlArray[0];
+		  				if(strpos($tempUrl, 'tss=ios') !==false){
+		  				  	$tempUrl=$this->getUrl($tempUrl);
+		  				}else {
+		  					$tempUrl=replaceStr($tempUrl, 'tss=no', 'tss=ios');
+		  				}
+		  				$videoAddressUrl3=MovieType::NORMAL  .MovieType::VIDEO_NAME_URL_SEP.$tempUrl;		  			  
+		  			}
+		  		}
+		  		
+  	    	$flag=false;
+  		     $videoAddressUrl='';
+  	    	 if(!isN($videoAddressUrl4)){
+	  		  	if($flag){
+	  		  		$videoAddressUrl=$videoAddressUrl.MovieType::VIDEO_SEP_VERSION;
+	  		  	}
+	  		  	$videoAddressUrl=$videoAddressUrl.$videoAddressUrl4;
+	  		  	$flag=true;
+	  		  }
+	  		  if(!isN($videoAddressUrl3)){
+	  		  	if($flag){
+	  		  		$videoAddressUrl=$videoAddressUrl.MovieType::VIDEO_SEP_VERSION;
+	  		  	}
+	  		  	$videoAddressUrl=$videoAddressUrl.$videoAddressUrl3;
+	  		  	$flag=true;
+	  		  }
+	  		  if(!isN($videoAddressUrl2)){
+	  		  	if($flag){
+	  		  		$videoAddressUrl=$videoAddressUrl.MovieType::VIDEO_SEP_VERSION;
+	  		  	}
+	  		  	$videoAddressUrl=$videoAddressUrl.$videoAddressUrl2;
+	  		  	$flag=true;
+	  		  }
+	  		  if(!isN($videoAddressUrl1)){
+	  		  	if($flag){
+	  		  		$videoAddressUrl=$videoAddressUrl.MovieType::VIDEO_SEP_VERSION;
+	  		  	}
+	  		  	$videoAddressUrl=$videoAddressUrl.$videoAddressUrl1;
+	  		  	$flag=true;
+	  		  }
+	  		  return $videoAddressUrl;
+  	    	}
+  	    }
+  	    return '';
+  	}
+  	
+  	function getUrl($url){
+  		$content = getPageWindow($url, $this->p_code);
+  		 $contentObj= json_decode($content);
+  		 if(is_object($contentObj) && property_exists($contentObj, 'location')){
+  		   return ($contentObj->location);
+  		 }
   	}
   }
 ?>
