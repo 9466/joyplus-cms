@@ -1064,7 +1064,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 
 	if(strpos($tmpvideourl, "http") ===false){
 		//iPad,iphone,apad,aphone,web
-		$strSet .=" , can_search_device='TV,iPad,iphone,apad,aphone,web'  ";
+		$strSet .=" , can_search_device='TV,iPad,iphone,apad,aphone,web,Vendor'  ";
 	}
 
 	//	    writetofile("d:\\up.txt", $strSet);
