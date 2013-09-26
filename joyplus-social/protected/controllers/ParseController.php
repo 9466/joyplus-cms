@@ -22,6 +22,7 @@ class ParseController extends Controller
 			$vodtype = $this->getVodtype($url);
 			if ($vodtype !== "" && $vodtype !="joyplus"){
 		        $content = $this->getContent("http://localhost/".$vodtype.'/?url='. $url, "utf-8");  
+		        $content = json_decode($content);
 			}
 			
 		  if(isset($content) ){
