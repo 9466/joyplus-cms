@@ -769,39 +769,34 @@ if(isN($mrowurl["iso_video_url"]) && isN($mrowurl["android_vedio_url"])){//判�
 	//入库  不勾tv.vender
 	echo "<script>alert('qq和pptv入库不勾tv和vender');</script>";
   }
-  echo "<script>alert('123');</script>";
 }else{
-// 判断下载地址 有
-  if($row["m_playfrom"]=="youku"){  // 入库数据是优酷
-    if($rowvod["d_playfrom"]=="youku"){
+   // 判断下载地址 有
+ if($row["m_playfrom"]=="youku"){  // 入库数据是优酷
+  if(!isN($rowvod["d_playfrom"])){
+  if(@strops($rowvod["d_playfrom"],"youku")!==false){
     //入库，不更新can_search_device
    }
-  if(isN($rowvod["d_playfrom"])){
-   $strSet .="can_search_device='TV,Vendor' , ";//入库 勾选tv vendor
-   }
-  if($rowvod["d_playfrom"]=="p2p"){
+  if(@strops($rowvod["d_playfrom"],"p2p")!==false){
    //不入库
    }
-  else{
-   //不入库
- }
-}
-else{     // 入库数据不是优酷
- if($rowvod["d_playfrom"]=="youku"){
-   //不入库
+  }  
+   else{
+   	$strSet .="can_search_device='TV,Vendor' , ";//入库 勾选tv vendor
    }
- if(isN($rowvod["d_playfrom"])){
-    $strSet .="can_search_device='TV,iPad,iphone,apad,aphone,web,Vendor' , ";//入库 全部勾选
+ } 
+ if($row["m_playfrom"]!=="youku"){     // 入库数据不是优酷   
+   if(!isN($rowvod["d_playfrom"])){
+    if(@strpos($rowvod["d_playfrom"],"youku")!==false){
+     echo "<script>alert('库内有优酷');</script>";//不入库
+    }
+    if(@strpos($rowvod["d_playfrom"],"p2p")!==false){
+    //不入库
+    }
    }
- if($rowvod["d_playfrom"]=="p2p"){
-   //不入库
+   else{ 
+ 	$strSet .="can_search_device='TV,iPad,iphone,apad,aphone,web,Vendor' , ";//入库 全部勾选
    }
- else{
-   
- 	//入库 不更新can_search_device
- }
-}  	
-  echo "<script>alert('321');</script>";
+  }  	
 }	
 		
 		
@@ -838,8 +833,9 @@ else{     // 入库数据不是优酷
 			continue;
 		}
 		$pddownurl=!isN($mrowurl["iso_video_url"]) || !isN($mrowurl["android_vedio_url"]);
-		if($rowvod["d_playfrom"]!="youku"&&$row["m_playfrom"]=="youku"&&$pddownurl){
-		
+	   
+		if( @strpos($rowvod["d_playfrom"],"youku")!==false && $row["m_playfrom"]=="youku" && $pddownurl){
+		echo "<script>alert('213');</script>";
 			continue;
 		}
 		//更新数据开始
