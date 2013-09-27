@@ -157,7 +157,7 @@ function save()
 	}
 	if(strpos($d_downurl, "magnet") ===false &&  strpos($d_downurl, "ed2k") ===false && strpos($d_downurl, "http") ===false && strpos($d_downurl, "rtmp") ===false  && strpos($d_downurl, "rtsp") ===false  && strpos($d_downurl, "mmsh") ===false  && strpos($d_downurl, "mms") ===false  ){
 		//iPad,iphone,apad,aphone,web
-		$can_search_device="iPad,iphone,apad,aphone,web";
+		$can_search_device="iPad,iphone,apad,aphone,web,Vendor";
 	}
 	if ($flag == "edit") {
 		$db->Update ("{pre}vod", array("d_capital_name","duraning","d_status","can_search_device","d_douban_id","can_play_device","d_video_desc_url","d_play_check","d_pic_ipad","d_type_name","d_name", "d_subname", "d_enname", "d_type","d_letter", "d_state", "d_color", "d_pic", "d_starring", "d_directed", "d_area", "d_year", "d_language", "d_level", "d_stint", "d_hits","d_dayhits","d_weekhits","d_monthhits", "d_topic", "d_content", "d_remarks","d_good","d_bad", "d_usergroup", "d_score", "d_scorecount", "d_hide", "d_time", "webUrls", "d_downurl", "d_playfrom", "d_playserver"), array($d_capital_name,$duraning,$d_status,$can_search_device,$d_douban_id,$can_play_device,$d_video_desc_url,$d_play_check,$d_pic_ipad,$d_type_name,$d_name, $d_subname, $d_enname, $d_type, $d_letter, $d_state, $d_color, $d_pic, $d_starring, $d_directed, $d_area, $d_year, $d_language, $d_level, $d_stint, $d_hits, $d_dayhits, $d_weekhits, $d_monthhits ,$d_topic, $d_content, $d_remarks, $d_good, $d_bad, $d_usergroup, $d_score, $d_scorecount, $d_hide, $d_time, $d_playurl, $d_downurl, $d_playfrom, $d_playserver), "d_id=" . $d_id);
@@ -1201,6 +1201,8 @@ function send(e){
 					<?php if ($can_search_device==='aphone'){ echo "selected";} ?>>Android-Phone版</option>
 					<option value="web"
 					<?php if ($can_search_device==='web'){ echo "selected";} ?>>网站版</option>
+					<option value="Vendor"
+					<?php if ($can_search_device==='Vendor'){ echo "selected";} ?>>Vendor版</option>
 				</select></td>
 			</tr>
 			<tr>
@@ -1982,7 +1984,7 @@ $(document).ready(function(){
 		</select> &nbsp;<font color="red"><strong>投放的设备：</strong></font> <?php
 
 		if(isN($can_search_device)){
-			$can_search_device="iPad,iphone,web,apad,TV,aphone";
+			$can_search_device="iPad,iphone,web,apad,TV,aphone,Vendor";
 		}
 
 		?> <input type="checkbox" name="can_search_device[]" value="TV"
@@ -1997,6 +1999,8 @@ $(document).ready(function(){
 		<?php if(strpos($can_search_device, "aphone") !==false){echo "checked";}?> />Android-phone版
 		<input type="checkbox" name="can_search_device[]" value="web"
 		<?php if(strpos($can_search_device, "web") !==false){echo "checked";}?> />网站版
+		<input type="checkbox" name="can_search_device[]" value="Vendor"
+		<?php if(strpos($can_search_device, "Vendor") !==false){echo "checked";}?> />Vendor版
 
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="red"><strong>播放时长：</strong></font>
 		<input id="duraning" name="duraning" type="text"
