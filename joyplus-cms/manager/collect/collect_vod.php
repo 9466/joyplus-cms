@@ -713,6 +713,13 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 	}
 
 
+global $db;
+$id=$row["m_id"];
+$sql2="select * from {pre}cj_vod_url where u_movieid=".$id ." order by name desc ";
+$rs_collect2= $db->query($sql2);
+$mrowurl = $db ->fetch_array($rs_collect2);
+
+	
 	//插入新数据开始
 	if ( isN($rowvod["d_id"]) || be("post","CCTV")=="1") {
 		$flag=true;
@@ -756,6 +763,25 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 		if(!($d_type ==='1' || $d_type ===1)){
 			$duraning='';
 		}
+if(isN($mrowurl["iso_video_url"]) && isN($mrowurl["android_vedio_url"])){//判断下载地址 无
+  if($row["m_playfrom"]=="qq"||$row["m_playfrom"]=="pptv"){
+	$strSet .="can_search_device='iPad,iphone,apad,aphone,web' , ";
+	//入库  不勾tv.vender
+	echo "<script>alert('qq和pptv入库不勾tv和vender');</script>";
+  }
+}else{
+   // 判断下载地址 有
+ if($row["m_playfrom"]=="youku"){  // 入库数据是优酷
+   	$strSet .="can_search_device='TV,Vendor' , ";//入库 勾选tv vendor
+ }else{ 
+ 	$strSet .="can_search_device='TV,iPad,iphone,apad,aphone,web,Vendor' , ";//入库 全部勾选
+   }
+    	
+}	
+		
+		
+		
+		
 		//writetofile("gaoca.txt", $duraning);
 		echo "states: ".$d_state.isNum($d_state);
 		echo "remarks: ".isNum($d_remarks);
@@ -778,11 +804,21 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 		//				$d_addtime= date('Y-m-d H:i:s',time());
 		//			  	$db->query("INSERT INTO mac_vod_pasre_item (prod_id,create_date) VALUES('".$did."','".$d_addtime."')");
 		//			}
+
 	}
 	//插入新数据结束
 	else{  //同名不处理， 如果是电影也不更新
 		if( be("post","CCTV")=="3" ){
 			//var_dump("dd");
+			continue;
+		}
+		
+	   
+		if( @strpos($rowvod["d_playfrom"],"youku")!==false && $row["m_playfrom"]=="youku"){
+		echo "<script>alert('优酷不更新入库');</script>";
+			continue;
+		}else if($row["m_playfrom"]!="youku" && (@strpos($rowvod["d_playfrom"],"youku") >0 ||@strpos($rowvod["d_playfrom"],"p2p") >0) ){
+	                echo "<script>alert('库内存在p2p或优酷不入库');</script>";
 			continue;
 		}
 		//更新数据开始
@@ -801,7 +837,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 			
 			
 		$strSet .=" d_type='".$d_type."', ";
-
+        
 		if(!isN($typeName) && $typeName!=='未知'){
 		  $strSet .=" d_type_name='".$typeName."', ";
 		}
@@ -881,7 +917,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 		$strSet .="d_letter='".$d_letter."',";
 		$d_addtime= date('Y-m-d H:i:s',time());
 		$strSet .="d_time='".$d_addtime."',";
-			
+
 		if($d_type === '2' || $d_type === '131'  ){
 			if(!($d_state  === $rowvod["d_state"]) && $rowvod["favority_user_count"]>0) {
 				$t_id=$rowvod["d_id"];
@@ -893,6 +929,8 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 			}
 		}
 			
+
+	
 	}
 	//更新数据结束
 
@@ -1062,11 +1100,6 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 		}
 	}
 
-	if(strpos($tmpvideourl, "http") ===false){
-		//iPad,iphone,apad,aphone,web
-		$strSet .=" , can_search_device='TV,iPad,iphone,apad,aphone,web,Vendor'  ";
-	}
-
 	//	    writetofile("d:\\up.txt", $strSet);
 	$sql= "update {pre}vod set ".$strSet." where d_id=" .$did;
 	//		writetofile("d:\\ts.txt", "update {pre}vod set ".$strSet." where d_id=" .$did);
@@ -1200,7 +1233,8 @@ function getVodPlanAndWebUrl($id,$testUrl,$m_playfrom,$d_type)
 			if(!isN($android_vedio_url)){
 				$videourstee=$android_vedio_url.MovieType::VIDEO_SEP_VERSION.$videourstee;
 			}
-		}else {
+		}
+		else {
 			$videourstee=$android_vedio_url;
 		}
 
