@@ -1100,7 +1100,6 @@ if(isN($mrowurl["iso_video_url"]) && isN($mrowurl["android_vedio_url"])){//åˆ¤æ–
 		}
 	}
 
-	
 	//	    writetofile("d:\\up.txt", $strSet);
 	$sql= "update {pre}vod set ".$strSet." where d_id=" .$did;
 	//		writetofile("d:\\ts.txt", "update {pre}vod set ".$strSet." where d_id=" .$did);

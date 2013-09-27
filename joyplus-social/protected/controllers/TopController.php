@@ -12,6 +12,8 @@ class TopController extends Controller
 		
 		$page_size=Yii::app()->request->getParam("page_size");
 		$page_num=Yii::app()->request->getParam("page_num");
+		$macaddress=Yii::app()->request->getParam("md");
+		$business=Yii::app()->request->getParam("business");
 		if(!(isset($page_size) && is_numeric($page_size))){
 			$page_size=10;
 			$page_num=1;
@@ -22,6 +24,7 @@ class TopController extends Controller
         $top_id= 4677;
 		
 		try{
+			User::model()->recordUser($macaddress,$bussiness);
 		  $lists = SearchManager::listTVNetItems($top_id,$page_size,$page_size*($page_num-1));
 		  if(isset($lists) && is_array($lists)){				
 		    IjoyPlusServiceUtils::exportEntity(array('items'=>$lists));

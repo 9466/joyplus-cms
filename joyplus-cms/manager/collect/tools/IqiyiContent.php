@@ -6,6 +6,23 @@
  * @author gaven
  */
 require_once dirname(__FILE__).'/ContentManager.php';
+require_once dirname(__FILE__).'/hessian/src/HessianClient.php';
+
+/**
+  测试最新的 iqiyi接口 
+*/
+
+   try{
+        	$testurl = 'http://iface2.iqiyi.com/php/xyz/iface/?device_id=a39eeeea4e9eee4e5e71dc3f4ecac6538e242e25&ua=iPad2,1&key=f0f6c3ee5709615310c0f053dc9c65f2&version=3.7&network=1&os=5.0.1&screen_status=2&getother=0';
+	        $proxy = new HessianClient($testurl); 
+	        //参数 1：album id, 2:vod id
+        	$content = $proxy->__hessianCall('getAlbum', array('605082','605082','1','0'));  //605082
+        	 //var_dump($content);
+   } catch (Exception $ex){
+        	    //var_dump($ex);
+	 }
+	 
+	 
 class IqiyiContent {
     const API = 'http://cache.m.iqiyi.com/mt/{aid}/';//621409
     private $p_code = 'utf-8';

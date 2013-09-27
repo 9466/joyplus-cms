@@ -73,6 +73,7 @@ return array(
 		        'lunbo'=>'search/lunBo',
 		        'tv_net_top'=>'top/TVNet',		
 		        'open_api_config'=>'api/openapiconfig',
+		        'real_analyze'=>'parse/realAnalyze',
 			),
 		),
 		

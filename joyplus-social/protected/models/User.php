@@ -504,6 +504,16 @@ class User extends CActiveRecord
         	}
 	}
 	
+	public function recordUser($macaddress,$bussiness){
+		$count = Yii::app()->db->createCommand('select u_id from mac_user where u_mac_address=\''.$macaddress.'\'')->queryRow();
+		if(!$count){
+		Yii::app()->db->createCommand()->insert('mac_user', array(
+		        	     'u_mac_address'=>$macaddress,
+		                 'u_bussiness'=>$bussiness
+		      ));
+		}
+	}
+	
 	public function findUser($userid){
 	  return Yii::app()->db->createCommand('select nickname,username,user_photo_url from '.$this->tableName() .' where id=\''.$userid.'\'')->queryRow();
 	}
