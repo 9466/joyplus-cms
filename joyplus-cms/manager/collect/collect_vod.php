@@ -767,7 +767,7 @@ if(isN($mrowurl["iso_video_url"]) && isN($mrowurl["android_vedio_url"])){//判�
   if($row["m_playfrom"]=="qq"||$row["m_playfrom"]=="pptv"){
 	$strSet .="can_search_device='iPad,iphone,apad,aphone,web' , ";
 	//入库  不勾tv.vender
-	echo "<script>alert('qq和pptv入库不勾tv和vender');</script>";
+	echo "qq和pptv播放源直接入库   视频名称： \"".$title."\"  播放源： ".$row["m_playfrom"]."\";";
   }
 }else{
    // 判断下载地址 有
