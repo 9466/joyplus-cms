@@ -85,13 +85,12 @@ function save()
 	$d_play_check= be("post", "d_play_check");
 
 
-	$urlid = be("arr", "urlid"); $url = be("arr", "url"); $urlfrom = be("arr", "urlfrom"); $urlserver = be("arr", "urlserver");
+	$urlid = be("arr", "urlid"); $url = be("arr", "url"); $urlfrom = be("arr", "urlfrom");
 	if(strpos($urlfrom, "no")  !==false){
 		echo 'no';
 		return;
 	}
-	$urlidsarr = explode(",",$urlid); $urlarr = explode(",",$url); $urlfromarr = explode(",",$urlfrom); $urlserverarr = explode(",",$urlserver);
-	$urlarr = $_POST["url"];
+	$urlidsarr = explode(",",$urlid); $urlarr = explode(",",$url); $urlfromarr = explode(",",$urlfrom); 	$urlarr = $_POST["url"];
 	$d_douban_id= $_POST["d_douban_id"];
 
 	$downurlid = be("arr", "downurlid"); $downurl = be("arr", "downurl"); $downurlfrom = be("arr", "downurlfrom");
@@ -104,10 +103,9 @@ function save()
 
 	$rc = false;
 	for ($i=0;$i<count($urlidsarr);$i++){
-		if (count($urlarr) >= $i && count($urlfromarr) >= $i && count($urlserverarr) >= $i){
+		if (count($urlarr) >= $i && count($urlfromarr) >= $i){
 			if ($rc){ $d_playurl .= "$$$"; $d_playfrom .= "$$$"; $d_playserver .= "$$$"; }
 			$d_playfrom .= trim($urlfromarr[$i]);
-			$d_playserver .=  trim($urlserverarr[$i]);
 			$d_playurl .= replaceStr(replaceStr(trim($urlarr[$i]), Chr(10), ""), Chr(13), "{Array}");
 			// writetofile("ddd.txt", replaceStr(replaceStr(trim($urlarr[$i]), Chr(10), ""), Chr(13), "{Array}"));
 			$rc =true;
