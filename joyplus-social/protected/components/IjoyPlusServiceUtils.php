@@ -65,6 +65,11 @@
   	  if(! IjoyPlusServiceUtils::validate( $appKey)   ){
 	   	return false;
   	  }
+  	  $client = isset($_SERVER['HTTP_CLIENT'])?$_SERVER['HTTP_CLIENT']:"";
+  	  $version_code = isset($_SERVER['HTTP_VERSIONCODE'])?$_SERVER['HTTP_VERSIONCODE']:"";
+  	  if(strpos($client, "android") !==false && (!isset($version_code) || (isset($version_code) && !is_null($version_code) && $version_code <=12))){
+  	  	return false;
+  	  }
   	  return true; 		
   	}
   	
