@@ -56,7 +56,7 @@ return array(
 		    'web'=>'web',
 			'android-pad'=>'apad',
 			'tv'=>'TV',
-		    'android-mobile'=>'aphone',	    
+		    'android'=>'aphone',	    
 		),
 		'area_group'=>array(    
 			// this is used in contact page iPad,iphone,web,apad,TV,aphone
