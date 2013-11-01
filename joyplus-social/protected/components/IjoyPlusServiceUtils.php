@@ -78,7 +78,7 @@
    	  	 $appKey = Yii::app()->request->getParam("app_key");
 //        return false;
    	  }
-  	  if($appKey !=="3e241545d4dd0b27487c95426c98eb79"){
+  	  if($appKey !=="abcd123"){
 	   	return false;
   	  }
   	  return true; 		
