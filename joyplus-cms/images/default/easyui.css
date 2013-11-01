@@ -1345,7 +1345,7 @@ a.s-btn-plain-active .s-btn-downarrow{
 	z-index:9900002;
 }.window {
 	font-size:12px;
-	position:absolute;
+	position:fixed;
 	overflow:hidden;
 	background:transparent url('images/panel_title.png');
 	background1:#878787;
@@ -1355,7 +1355,7 @@ a.s-btn-plain-active .s-btn-downarrow{
 	-webkit-border-radius: 5px;
 }
 .window-shadow{
-	position:absolute;
+	position:fixed;
 	background:#ddd;
 	-moz-border-radius:5px;
 	-webkit-border-radius: 5px;

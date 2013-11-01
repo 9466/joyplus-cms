@@ -793,12 +793,8 @@ function main()
 	}
 
 	if(!isN($can_search_device)){
-		//    	if($can_search_device ==='TV'){
-		//    		$where .= " AND can_search_device like '%TV%' ";
-		//    	}else {
-		//    		$where .= " AND (can_search_device like '".$can_search_device."' or can_search_device is null or can_search_device ='' ) ";
-		//    	}
-		$where .= " AND (can_search_device like '".$can_search_device."' or can_search_device is null or can_search_device ='' ) ";
+
+		$where .= " AND (can_search_device like '%".$can_search_device."%' or can_search_device is null or can_search_device ='' ) ";
 		 
 	}
 
