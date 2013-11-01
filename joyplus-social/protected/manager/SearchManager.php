@@ -638,6 +638,37 @@ ORDER BY d.disp_order asc ';
 	    }
 	    return $tempList;
 	}
+    public static function listTVNetInfo($top_id,$limit,$offset){
+	    $device=IjoyPlusServiceUtils::getDevice();
+   	    $where='';
+   	    if($device ===false){
+           $key =SearchManager::CACHE_LIST_ITEMS_BY_TYPE_LIMIT_OFFSET.'_TOPTVNet_'.$top_id.'_LIMIT_'.$limit.'_OFFSET_'.$offset;
+   	    }else {
+   	    	$where=' AND (can_search_device like \'%'.$device.'%\' or can_search_device is null or can_search_device =\'\' ) ';
+   	    	$key =SearchManager::CACHE_LIST_ITEMS_BY_TYPE_LIMIT_OFFSET.'_TOPTVNet_'.$top_id.'_LIMIT_'.$limit.'_OFFSET_'.$offset.'_DEVICE_'.$device;
+   	    }
+   	    
+   	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
+   	    	$where= $where . " and vod.d_area not like '%美国%' ";
+   	    }
+	    $items= Yii::app()->db->createCommand()
+			->select('vod.d_id as prod_id,vod.d_name as prod_name, vod.d_type as prod_type,  substring_index( vod.d_pic_ipad, \'{Array}\', 1 )  as prod_pic_url ')
+			->from('mac_vod_topic_items as items')
+			->join("mac_vod as vod","items.vod_id=vod.d_id")
+			->where('items.flag=:t_flag and items.topic_id=:topic_id and vod.d_hide=0 '.$where, array(
+				    ':t_flag'=>1,
+				    ':topic_id'=>$top_id,
+			))->order('items.disp_order desc, vod.d_level desc ,vod.d_good desc,vod.d_time DESC ')->limit($limit)->offset($offset)
+			->queryAll();
+		
+	    $tempList= array();
+	    if(isset($items) && !is_null($items) && is_array($items)){
+	    	foreach ($items as $item){
+	    	  $tempList[]=$item;
+	      }
+	    }
+	    return $tempList;
+	}
 	
    
    public static function searchProgram($keyword,$limit,$offset){
