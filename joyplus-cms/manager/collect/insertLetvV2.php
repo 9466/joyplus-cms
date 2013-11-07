@@ -82,12 +82,13 @@ require_once ("tools/ContentManager.php");
 		   	  $d_downurl=replaceStr($d_downurl, '$$$$$$', '$$$');
 		   	  $strSet.= " ,d_downurl='".$d_downurl."'";
 	   	  }
-   if(!isN($videoUrl) && strpos($videoUrl, "http") !==false){
+	   	  
+   //if(!isN($videoUrl) && strpos($videoUrl, "http") !==false){
 		  $strSet.= " ,d_time='".date('Y-m-d H:i:s',time())."'";
 	   	  $sql= "update {pre}vod set ".$strSet." where d_id=" .$d_id;
 	   	  writetofile('insertLetvV2.log', $sql);
 	   	  $db->query($sql);
-	   }
+	 //  }
   }
   function BothLetvV2VideoUrl($webUrls,$d_downurl,$d_playfrom,$d_id){
   	 global $db;
@@ -145,12 +146,12 @@ require_once ("tools/ContentManager.php");
 		   	  $d_downurl=replaceStr($d_downurl, '$$$$$$', '$$$');
 		   	  $strSet.= " ,d_downurl='".$d_downurl."'";
 	   	  }
-   if(!isN($videoUrl) && strpos($videoUrl, "http") !==false){
+  // if(!isN($videoUrl) && strpos($videoUrl, "http") !==false){
 		  $strSet.= " ,d_time='".date('Y-m-d H:i:s',time())."'";
 	   	  $sql= "update {pre}vod set ".$strSet." where d_id=" .$d_id;
 	   	  writetofile('insertLetvV2.log', $sql);
 	   	  $db->query($sql);
-	   }
+	//   }
   }
   
   
