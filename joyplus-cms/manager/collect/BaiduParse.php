@@ -444,7 +444,7 @@ class BaiduParse{
 			'酷6'=>'ku6',
 			'新浪'=>'sinahd',
 			'迅雷看看'=>'kankan',
-			'乐视'=>'letv',
+			'乐视'=>'letv_v2',
 			'腾讯'=>'qq',
 			'PPS'=>'pps',
 			'PPTV'=>'pptv',
@@ -454,7 +454,7 @@ class BaiduParse{
 	  	    '56网'=>'56',//56网
 	  	    '56我乐'=>'56',//56我乐
 	  	    '华数TV'=>'wasu',
-		'iqiyi.com'=>'qiyi',
+		    'iqiyi.com'=>'qiyi',
 			'sohu.com'=>'sohu',
 			'youku.com'=>'youku',
 			'tudou.com'=>'tudou',
@@ -462,7 +462,7 @@ class BaiduParse{
 			'ku6.com'=>'ku6',
 			'sina.com.cn'=>'sinahd',
 			'kankan.com'=>'kankan',
-			'letv.com'=>'letv',
+			'letv.com'=>'letv_v2',
 			'qq.com'=>'qq',
 			'pps.tv'=>'pps',
 			'PPTV'=>'pptv',
