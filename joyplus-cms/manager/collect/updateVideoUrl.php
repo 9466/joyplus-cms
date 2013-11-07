@@ -73,6 +73,10 @@ require_once ("tools/ContentManager.php");
 	   	  if(strpos($d_playfrom, 'le_tv_fee') !==false){
 	   	  	 $from='le_tv_fee';
 	   	  }
+	   }else if($from ==='letv_v2'){
+	      if(strpos($d_playfrom, 'letv_v2_fee') !==false){
+	   	  	 $from='letv_v2_fee';
+	   	  }
 	   }
 	   writetofile('updateVideoUrl.log', 'from===='.$from);   
 	   $playfromarr = explode("$$$",$d_playfrom);
