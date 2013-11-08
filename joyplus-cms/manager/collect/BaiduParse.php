@@ -275,6 +275,12 @@ class BaiduParse{
 					}
 					$site['episodes']=$episodes;
 				}
+				if($site['site_name'] ==="letv_v2"){
+					$c_site = $site;
+					$c_site['site_name']='letv';
+					$sites[] =$c_site;
+				}
+				
 				$sites[]=$site;
 			}
 		}
@@ -335,6 +341,12 @@ class BaiduParse{
 							$site['episodes']=$episodes;
 						}
 					}
+					
+				if($site['site_name'] ==="letv_v2"){
+					$c_site = $site;
+					$c_site['site_name']='letv';
+					$sites[] =$c_site;
+				}
 					$sites[]=$site;
 				}
 					
