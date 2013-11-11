@@ -275,7 +275,7 @@ class BaiduParse{
 					}
 					$site['episodes']=$episodes;
 				}
-				if($site['site_name'] ==="letv_v2"){
+				if($site['site_name'] ==="le_v2"){
 					$c_site = $site;
 					$c_site['site_name']='letv';
 					$sites[] =$c_site;
@@ -342,7 +342,7 @@ class BaiduParse{
 						}
 					}
 					
-				if($site['site_name'] ==="letv_v2"){
+				if($site['site_name'] ==="le_v2"){
 					$c_site = $site;
 					$c_site['site_name']='letv';
 					$sites[] =$c_site;
@@ -456,7 +456,7 @@ class BaiduParse{
 			'酷6'=>'ku6',
 			'新浪'=>'sinahd',
 			'迅雷看看'=>'kankan',
-			'乐视'=>'letv_v2',
+			'乐视'=>'le_v2',
 			'腾讯'=>'qq',
 			'PPS'=>'pps',
 			'PPTV'=>'pptv',
@@ -474,7 +474,7 @@ class BaiduParse{
 			'ku6.com'=>'ku6',
 			'sina.com.cn'=>'sinahd',
 			'kankan.com'=>'kankan',
-			'letv.com'=>'letv_v2',
+			'letv.com'=>'le_v2',
 			'qq.com'=>'qq',
 			'pps.tv'=>'pps',
 			'PPTV'=>'pptv',
