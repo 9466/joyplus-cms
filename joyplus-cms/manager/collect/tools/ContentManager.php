@@ -68,11 +68,11 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   			return new IqiyiContent();
   		}else if(ContentProviderFactory::M1905===$providerName ){
   			return new M1905Content();
-  		}else if('letv_v2'===$providerName ){
+  		}else if('le_v2'===$providerName ){
   			   $content= new JoyplusContent();
                $content->from='letv/v2';
                return $content;
-  		}else if('letv_v2_fee'===$providerName ){
+  		}else if('le_v2_fee'===$providerName ){
   			   $content= new JoyplusContent();
                $content->from='letv/v2';
                return $content;
