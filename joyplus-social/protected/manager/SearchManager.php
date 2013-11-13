@@ -815,7 +815,7 @@ ORDER BY d.disp_order asc ';
 	    $where=" ";	   
 	    
 	    if (!(is_null($year) || $year==='')){
-	    	if($year==='其他'){
+	    	if($year==='其他' || $year==="Other"){
 	    		$where=$where." and ( d_year < '2004' or d_year like '%".$year."%' )";
 	    	}else {
 	        	$where=$where." and d_year like '%".$year."%' ";
@@ -823,7 +823,20 @@ ORDER BY d.disp_order asc ';
 	    }
 	    
 	    if (!(is_null($sub_type) || $sub_type==='')){
-	    	$where=$where." and d_type_name like '%".$sub_type."%' ";
+        	$subtypeGroup="";
+        	if (!(is_null($type) || $type=='') && ($type ==='1' || $type ==='2'  || $type ==='3'  || $type ==='131' )){
+        		try{
+        			if(array_key_exists($sub_type, Yii::app()->params['sub_type_group'][$type])){
+        			  $subtypeGroup = Yii::app()->params['sub_type_group'][$type][$sub_type.''];
+        			}
+        		}catch (Exception $e){
+        			
+        		}
+        	} 
+	    }
+//	    var_dump($subtypeGroup);
+	    if (isset($subtypeGroup) && !(is_null($subtypeGroup) || $subtypeGroup==='')){
+	    	$where=$where." and d_type_name like '%".$subtypeGroup."%' ";
 	    }
 	    
         if (!(is_null($area) || $area==='')){
