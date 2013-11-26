@@ -57,7 +57,9 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   		}else if(ContentProviderFactory::Wl_56===$providerName ){
   			return new WLContent();
   		}else if(ContentProviderFactory::FENG_XING===$providerName ){
-  			return new FengXingContent();
+  			$content= new JoyplusContent();
+               $content->from='funshion';
+               return $content;
   		} else if(ContentProviderFactory::SOHU===$providerName ){
   			   $content= new JoyplusContent();
                $content->from='sohu';
