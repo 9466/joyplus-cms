@@ -795,7 +795,7 @@ ORDER BY d.disp_order asc ';
 	    return $prods;
 	}
 	
-   public static function filterPrograms($type,$sub_type,$area,$year,$limit,$offset){
+   public static function filterPrograms($type,$sub_type,$area,$year,$limit,$offset,$playfrom){
    	    $device=IjoyPlusServiceUtils::getDevice();
    	    $whereDevice='';
    	    if($device ===false){
@@ -863,7 +863,11 @@ ORDER BY d.disp_order asc ';
 	    if (!(is_null($type) || $type=='')){
 	    	$where=$where." and d_type=".$type." ";
 	    }
-	    
+
+        if($playfrom ==="so_hu_cp"){
+            $where = $where." and d_playfrom='".$playfrom."' ";
+        }
+//       var_dump($where);
 	    $prods= Yii::app()->db->createCommand()
 			->select('d_id as prod_id, d_name as prod_name, d_level as definition, d_type as prod_type,d_pic as prod_pic_url,  substring_index( d_pic_ipad, \'{Array}\', 1 )  as big_prod_pic_url,d_content as prod_sumary,d_starring as star,d_directed as director,d_score as score ,favority_user_count as favority_num ,good_number as support_num ,d_year as publish_date,d_area as area, d_remarks as max_episode, d_state as cur_episode, duraning as duration ')
 			->from('mac_vod ')
