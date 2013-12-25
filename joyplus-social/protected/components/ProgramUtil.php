@@ -159,13 +159,10 @@ private static function parsePadPost($pic_url){
             if (is_null($platformWebUrl) || $platformWebUrl=='') { $platformWebUrl="";}
             $webUrls=explode("{Array}",$platformWebUrl);
 
-            $tmpvideoids=explode("{Array}",$tmpvideo);
             $index=1;
             for ($j=0;$j<count($webUrls);$j++){
                 $webUrl=$webUrls[$j];
-                $tmpvideoid=$tmpvideoids[$j];
 
-                $vidurl=explode("$",$tmpvideoid);
                 $nameUrl=explode("$",$webUrl);
                 $name="";
                 $url="";
@@ -182,14 +179,19 @@ private static function parsePadPost($pic_url){
                     $url=$nameUrl[0];
                 }
                 $index++;
-                if(count($vidurl) ==2){
-                    $name = $vidurl[0];
-                    $vid = $vidurl[1];
-                }else if (count($vid) ==1){
-                    $name = $vidurl[0];
-                    $vid = $vidurl[0];
-                }
+                if($tmpplayfrom ==="so_hu_cp"){
+                    $tmpvideoids=explode("{Array}",$tmpvideo);
+                    $tmpvideoid=$tmpvideoids[$j];
 
+                    $vidurl=explode("$",$tmpvideoid);
+                    if(count($vidurl) ==2){
+                        $name = $vidurl[0];
+                        $vid = $vidurl[1];
+                    }else if (count($vid) ==1){
+                        $name = $vidurl[0];
+                        $vid = $vidurl[0];
+                    }
+                }
                 $temp=array('name'=>$name,'vid'=>$vid,'video_urls'=>array());
                 if((isset($numPlatformUrl[$name]) && is_array($numPlatformUrl[$name]))){
                     $temp =$numPlatformUrl[$name];
