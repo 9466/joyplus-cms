@@ -795,7 +795,7 @@ ORDER BY d.disp_order asc ';
 	    return $prods;
 	}
 	
-   public static function filterPrograms($type,$sub_type,$area,$year,$limit,$offset,$playform){
+   public static function filterPrograms($type,$sub_type,$area,$year,$limit,$offset){
    	    $device=IjoyPlusServiceUtils::getDevice();
    	    $whereDevice='';
    	    if($device ===false){
@@ -812,14 +812,8 @@ ORDER BY d.disp_order asc ';
    	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
    	    	$whereDevice= $whereDevice . " and d_area not like '%美国%' ";
    	    }
-	    $where=" ";
-
-
-       if(!(is_null($playform)||$playform=='so_hu_cp')){
-           $where=$where."and d_playform ==='%".so_hu_cp."%'";
-       }
-
-
+	    $where=" ";	   
+	    
 	    if (!(is_null($year) || $year==='')){
 	    	if($year==='其他' || $year==="Other"){
 	    		$where=$where." and ( d_year < '2004' or d_year like '%".$year."%' )";
@@ -864,10 +858,7 @@ ORDER BY d.disp_order asc ';
 		    }else {
 		    	$where=$where." and d_area like '%".$area."%' ";
 		    }	    
-	    }
-
-
-
+	    } 
 //	    var_dump($where);
 	    if (!(is_null($type) || $type=='')){
 	    	$where=$where." and d_type=".$type." ";

@@ -164,15 +164,9 @@ class SearchController extends Controller
 		$type= Yii::app()->request->getParam("type");
 		$sub_type= Yii::app()->request->getParam("sub_type");
 		$area= Yii::app()->request->getParam("area");
-		$year= Yii::app()->request->getParam("year");
-        $playform=Yii::app()->request->getParam("playform");
-        if(!(isset($playform))){
-            $playform="";
-        }
-
-
+		$year= Yii::app()->request->getParam("year");		
 		try{
-		  $prods = SearchManager::filterPrograms($type, $sub_type, $area, $year,$page_size,$page_size*($page_num-1),$playform);
+		  $prods = SearchManager::filterPrograms($type, $sub_type, $area, $year,$page_size,$page_size*($page_num-1));
 		  if(isset($prods) && is_array($prods)){				
 		    IjoyPlusServiceUtils::exportEntity(array('results'=>$prods));
 		    }else {
