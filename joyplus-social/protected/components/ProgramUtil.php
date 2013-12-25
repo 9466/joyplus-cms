@@ -57,77 +57,85 @@ private static function parsePadPost($pic_url){
   }
   return $pic_url;
 }
-private static function genTV($program,$flag){
-	  $prod= array(
-          'name'=>$program->d_name,
-          'summary'=>$program->d_content,
-          'poster'=>$program->d_pic,
-          'episodes_count'=>$program->d_state,
-          'cur_episode'=>$program->d_state,
-          'max_episode'=>$program->d_remarks,
-          'sources'=>$program->d_playfrom,
-          'like_num'=>$program->love_user_count,
-          'watch_num'=>$program->watch_user_count,
-          'favority_num'=>$program->favority_user_count,  
-	      'score'=>$program->d_score,  
-	      'ipad_poster'=>ProgramUtil::parsePadPost($program->d_pic_ipad), 
-	      'support_num'=>$program->good_number,	      
-	      'publish_date'=>$program->d_year, 	        
-	      'directors'=>$program->d_directed,  	        
-	      'stars'=>$program->d_starring, 
-	      'id'=>$program->d_id,  
-	      'definition'=>$program->d_level,  
-	      'area'=>$program->d_area,  
-	      'duration'=>$program->duraning,  
-	      'total_comment_number'=>$program->total_comment_number,
-	      'douban_id'=>$program->d_douban_id,
-	      'usergroup'=>$program->d_usergroup,
+    private static function genTV($program,$flag){
+        $prod= array(
+            'name'=>$program->d_name,
+            'summary'=>$program->d_content,
+            'poster'=>$program->d_pic,
+            'episodes_count'=>$program->d_state,
+            'cur_episode'=>$program->d_state,
+            'max_episode'=>$program->d_remarks,
+            'sources'=>$program->d_playfrom,
+            'like_num'=>$program->love_user_count,
+            'watch_num'=>$program->watch_user_count,
+            'favority_num'=>$program->favority_user_count,
+            'score'=>$program->d_score,
+            'ipad_poster'=>ProgramUtil::parsePadPost($program->d_pic_ipad),
+            'support_num'=>$program->good_number,
+            'publish_date'=>$program->d_year,
+            'directors'=>$program->d_directed,
+            'stars'=>$program->d_starring,
+            'id'=>$program->d_id,
+            'definition'=>$program->d_level,
+            'area'=>$program->d_area,
+            'duration'=>$program->duraning,
+            'total_comment_number'=>$program->total_comment_number,
+            'douban_id'=>$program->d_douban_id,
+            'usergroup'=>$program->d_usergroup,
+            'cid'=>$program->d_cid,
+            'sid'=>$program->d_sid,
 //	      'typeName'=>$program->d_type_name  ,
-		);
-		
-	try{
-		if($program->d_usergroup !=null && $program->d_usergroup !='0'){
-			$prod['fee']=true;
-		}else {
-			$prod['fee']=false;
-		}
-		$tmpweburl = $program->webUrls;
-		$tmpplayfrom = $program->d_playfrom;
-        $webUrlArray= ProgramUtil::getTVWebList($tmpweburl, $tmpplayfrom);
-        
-        $videoUrlArray=(ProgramUtil::getTVVideoList($program->d_downurl));
-        $tempArray= array();
-        $existVideos="{Array}";
-        foreach ($webUrlArray as $webUrl){
-        	$name = $webUrl['name'];
-        	if(is_array($videoUrlArray) && array_key_exists($name, $videoUrlArray)){
-        		$webUrl['down_urls']=$videoUrlArray[$name];
-        		$existVideos=$existVideos.$name.'{Array}';
-        	} 
-        	if($flag){
-        		$webUrl['name']=ProgramUtil::escapeNum($name);
-        	}       	
-        	$tempArray[]=$webUrl;
-        }
-        $keys= array_keys($videoUrlArray);
+        );
+
+        try{
+            if($program->d_usergroup !=null && $program->d_usergroup !='0'){
+                $prod['fee']=true;
+            }else {
+                $prod['fee']=false;
+            }
+            $tmpweburl = $program->webUrls;
+            $tmpplayfrom = $program->d_playfrom;
+            $tmpvideo = $program->d_playurl;
+            $webUrlArray= ProgramUtil::getTVWebList($tmpweburl, $tmpplayfrom,$tmpvideo);
+
+            $videoUrlArray=(ProgramUtil::getTVVideoList($program->d_downurl));
+            $tempArray= array();
+            $existVideos="{Array}";
+            foreach ($webUrlArray as $webUrl){
+                $name = $webUrl['name'];
+                if(is_array($videoUrlArray) && array_key_exists($name, $videoUrlArray)){
+                    $webUrl['down_urls']=$videoUrlArray[$name];
+                    $existVideos=$existVideos.$name.'{Array}';
+                }
+                if($flag){
+                    $webUrl['name']=ProgramUtil::escapeNum($name);
+                }
+//            if(strpos($prod[sources],"so_hu_cp")!==false){
+
+//                $webUrl['cid']=$program->d_cid;
+
+//            }
+                $tempArray[]=$webUrl;
+            }
+            $keys= array_keys($videoUrlArray);
 //        var_dump($keys);
-        foreach ($keys as $key){
-        	if (strpos($existVideos, "{Array}".$key."{Array}") === false) {
-        		$tempkey=$key;
-        		if($flag){
-        			$tempkey=ProgramUtil::escapeNum($tempkey);
-        		}
-        		$tempArray[]=array('name'=>$tempkey,
-        		'down_urls'=>$videoUrlArray[$key],);
-        	}
+            foreach ($keys as $key){
+                if (strpos($existVideos, "{Array}".$key."{Array}") === false) {
+                    $tempkey=$key;
+                    if($flag){
+                        $tempkey=ProgramUtil::escapeNum($tempkey);
+                    }
+                    $tempArray[]=array('name'=>$tempkey,
+                        'down_urls'=>$videoUrlArray[$key],);
+                }
+            }
+
+        }catch (Exception $e){
+            $webUrlArray=array();
         }
-      
-	}catch (Exception $e){
-		$webUrlArray=array();
-	}
-	  $prod['episodes']=$tempArray;
-	  return $prod;
-   }
+        $prod['episodes']=$tempArray;
+        return $prod;
+    }
    
    private static function getTVWebList($tmpweburl,$tmpplayfrom){   	   	  
         if (is_null($tmpweburl) || $tmpweburl==''  ||is_null($tmpplayfrom) || $tmpplayfrom=='') { 
@@ -289,83 +297,92 @@ private static function genTV($program,$flag){
    	 }
    	 return $temp;
    }
-   private static function genMovie($program){
-	  $prod= array(
-          'name'=>$program->d_name,
-          'summary'=>$program->d_content,
-          'poster'=>$program->d_pic,
-          'sources'=>$program->d_playfrom,
-          'like_num'=>$program->love_user_count,
-          'watch_num'=>$program->watch_user_count,
-          'favority_num'=>$program->favority_user_count, 
-	      'score'=>$program->d_score,  
-	      'ipad_poster'=>ProgramUtil::parsePadPost($program->d_pic_ipad),
-	      'support_num'=>$program->good_number,	      
-	      'publish_date'=>$program->d_year, 	        
-	      'directors'=>$program->d_directed,  	        
-	      'stars'=>$program->d_starring,   
-	      'id'=>$program->d_id,       
-	      'area'=>$program->d_area,   
-	      'total_comment_number'=>$program->total_comment_number, 
-//	      'typeName'=>$program->d_type_name  ,     
-	  );
-      $tmpweburl = $program->webUrls;
-      $tmpdownurl = $program->d_downurl;
-	  $tmpplayfrom = $program->d_playfrom;
-      if (!(is_null($tmpweburl) || $tmpweburl==''  ||is_null($tmpplayfrom) || $tmpplayfrom=='')) {         	
-        $webArrays = explode("$$$",$tmpweburl);
-		$playfromArray = explode("$$$",$tmpplayfrom);
-		$video_urls = array();		
-		for ($k=0;$k<count($playfromArray);$k++){
-			$tmpplayfrom=$playfromArray[$k];
-						
-			$platformWebUrl= $webArrays[$k];
-		    $tempUrl = explode("$", $platformWebUrl);
-		    if(count($tempUrl)==2){
-		    	$platformWebUrl=$tempUrl[1];
-		    }
-		    
-		    if(!ProgramUtil::isN($platformWebUrl)){
-				$video_urls[]=array(
-				  'source'=>$tmpplayfrom,
-	               'url'=>$platformWebUrl,
-				);
-		    }
-			
-		}		
-	    $prod['video_urls']=$video_urls;
-      }
-      $playfroms="";
-     if (!(is_null($tmpdownurl) || $tmpdownurl=='' )) {         	
-        $webArrays = explode("$$$",$tmpdownurl);
-		$video_urls = array();		
-		for ($k=0;$k<count($webArrays);$k++){
+    private static function genMovie($program){
+        $prod= array(
+            'name'=>$program->d_name,
+            'summary'=>$program->d_content,
+            'poster'=>$program->d_pic,
+            'sources'=>$program->d_playfrom,
+            'like_num'=>$program->love_user_count,
+            'watch_num'=>$program->watch_user_count,
+            'favority_num'=>$program->favority_user_count,
+            'score'=>$program->d_score,
+            'ipad_poster'=>ProgramUtil::parsePadPost($program->d_pic_ipad),
+            'support_num'=>$program->good_number,
+            'publish_date'=>$program->d_year,
+            'directors'=>$program->d_directed,
+            'stars'=>$program->d_starring,
+            'id'=>$program->d_id,
+            'area'=>$program->d_area,
+            'total_comment_number'=>$program->total_comment_number,
+            'cid'=>$program->d_cid,
+            'sid'=>$program->d_sid,
+//	      'typeName'=>$program->d_type_name  ,
+        );
+        $tmpweburl = $program->webUrls;
+        $tmpdownurl = $program->d_downurl;
+        $tmpplayfrom = $program->d_playfrom;
+
+        if (!(is_null($tmpweburl) || $tmpweburl==''  ||is_null($tmpplayfrom) || $tmpplayfrom=='')) {
+            $webArrays = explode("$$$",$tmpweburl);
+            $playfromArray = explode("$$$",$tmpplayfrom);
+            $video_urls = array();
+            $tmpvideo = $program->d_playurl;
+            $tmpvideoids=explode("{Array}",$tmpvideo);
+            for ($k=0;$k<count($playfromArray);$k++){
+                $tmpplayfrom=$playfromArray[$k];
+                $videoids=$tmpvideoids[$k];
+
+                $platformWebUrl= $webArrays[$k];
+                $tempUrl = explode("$", $platformWebUrl);
+                $vedioid=explode("$",$videoids);
+                if(count($tempUrl)==2){
+                    $platformWebUrl=$tempUrl[1];
+                }
+
+                if(!ProgramUtil::isN($platformWebUrl)){
+                    $video_urls[]=array(
+                        'source'=>$tmpplayfrom,
+                        'url'=>$platformWebUrl,
+                        'vid'=>$vedioid[1],
+                    );
+                }
+
+            }
+            $prod['video_urls']=$video_urls;
+        }
+        $playfroms="";
+        if (!(is_null($tmpdownurl) || $tmpdownurl=='' )) {
+            $webArrays = explode("$$$",$tmpdownurl);
+            $video_urls = array();
+            for ($k=0;$k<count($webArrays);$k++){
 //			var_dump($webArrays[$k]);
-			$weburlarr2=explode("$$",$webArrays[$k]);
+                $weburlarr2=explode("$$",$webArrays[$k]);
 //			var_dump($weburlarr2);
-			$tmpplayfrom=$weburlarr2[0];	
-					
-			
-			if(isset($tmpplayfrom) && !is_null($tmpplayfrom) && strlen(trim($tmpplayfrom))>0 && strpos($playfroms, $tmpplayfrom) ===false ){
-				if(count($weburlarr2)<2){
-					continue;
-				}
-				$playfroms=$playfroms.','.$tmpplayfrom;
-				$platformWebUrl= $weburlarr2[1];
-			    if (is_null($platformWebUrl) || $platformWebUrl=='') { $platformWebUrl="";}
-			    $tempUrl = explode("$", $platformWebUrl);
-			    if(count($tempUrl)==2){
-			    	$platformWebUrl=$tempUrl[1];
-			    }
-				$video_urls[]=array(
-				  'source'=>$tmpplayfrom,
-	                  'urls'=>ProgramUtil::parseDownVideoUrls($platformWebUrl,$tmpplayfrom),
-				);
-			}
-		}		
-	    $prod['down_urls']=$video_urls;
-      }
-	  return $prod;
+                $tmpplayfrom=$weburlarr2[0];
+
+
+                if(isset($tmpplayfrom) && !is_null($tmpplayfrom) && strlen(trim($tmpplayfrom))>0 && strpos($playfroms, $tmpplayfrom) ===false ){
+                    if(count($weburlarr2)<2){
+                        continue;
+                    }
+                    $playfroms=$playfroms.','.$tmpplayfrom;
+                    $platformWebUrl= $weburlarr2[1];
+                    if (is_null($platformWebUrl) || $platformWebUrl=='') { $platformWebUrl="";}
+                    $tempUrl = explode("$", $platformWebUrl);
+                    if(count($tempUrl)==2){
+                        $platformWebUrl=$tempUrl[1];
+                    }
+                    $video_urls[]=array(
+                        'source'=>$tmpplayfrom,
+                        'urls'=>ProgramUtil::parseDownVideoUrls($platformWebUrl,$tmpplayfrom),
+                    );
+                }
+            }
+            $prod['down_urls']=$video_urls;
+//        $prod['cid']=$program->d_cid;
+        }
+        return $prod;
     }
     
     public static function parseMovidePlayurl($tmpdownurl){
