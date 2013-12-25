@@ -96,7 +96,7 @@ private static function parsePadPost($pic_url){
             $tmpweburl = $program->webUrls;
             $tmpplayfrom = $program->d_playfrom;
             $tmpvideo = $program->d_playurl;
-            $webUrlArray= ProgramUtil::getTVWebList($tmpweburl, $tmpplayfrom,$tmpvideo);
+            $webUrlArray= ProgramUtil::getTVWebList($tmpweburl,$tmpplayfrom,$tmpvideo);
 
             $videoUrlArray=(ProgramUtil::getTVVideoList($program->d_downurl));
             $tempArray= array();
@@ -172,7 +172,6 @@ private static function parsePadPost($pic_url){
                 $vid="";
                 if(count($nameUrl)==2){
                     $name=$nameUrl[0];
-                    $vid=$vidurl[1];
                     if(ProgramUtil::isN($name)){
                         $name=$index;
                     }
@@ -181,9 +180,16 @@ private static function parsePadPost($pic_url){
                 if(count($nameUrl)==1){
                     $name=$index;
                     $url=$nameUrl[0];
-                    $vid=$vidurl[1];
                 }
                 $index++;
+                if(count($vidurl) ==2){
+                    $name = $vidurl[0];
+                    $vid = $vidurl[1];
+                }else if (count($vid) ==1){
+                    $name = $vidurl[0];
+                    $vid = $vidurl[0];
+                }
+
                 $temp=array('name'=>$name,'vid'=>$vid,'video_urls'=>array());
                 if((isset($numPlatformUrl[$name]) && is_array($numPlatformUrl[$name]))){
                     $temp =$numPlatformUrl[$name];
