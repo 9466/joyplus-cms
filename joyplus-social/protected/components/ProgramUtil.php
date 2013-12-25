@@ -136,65 +136,75 @@ private static function parsePadPost($pic_url){
         $prod['episodes']=$tempArray;
         return $prod;
     }
-   
-   private static function getTVWebList($tmpweburl,$tmpplayfrom){   	   	  
-        if (is_null($tmpweburl) || $tmpweburl==''  ||is_null($tmpplayfrom) || $tmpplayfrom=='') { 
-        	return  array();
-        }		
-		
-		$webArrays = explode("$$$",$tmpweburl);
-		$playfromArray = explode("$$$",$tmpplayfrom);
-		$numPlatformUrl = array();
-		
-		for ($k=0;$k<count($playfromArray);$k++){
-			$tmpplayfrom=$playfromArray[$k];
-			
-			if(is_null($tmpplayfrom) || $tmpplayfrom=='' || strpos("wasu,kankan,tudou,cntv", $tmpplayfrom) !==false){
-				continue;
-			}	
-					
-			$platformWebUrl= $webArrays[$k];
-		    if (is_null($platformWebUrl) || $platformWebUrl=='') { $platformWebUrl="";}
-		    $webUrls=explode("{Array}",$platformWebUrl);
-		    $index=1;
-		    for ($j=0;$j<count($webUrls);$j++){
-		    	$webUrl=$webUrls[$j];
-		    	$nameUrl=explode("$",$webUrl);
-		    	$name="";
-		    	$url="";
-		    	if(count($nameUrl)==2){
-		    		$name=$nameUrl[0];
-		    		if(ProgramUtil::isN($name)){
-		    			$name=$index;
-		    		}
-		    		$url=$nameUrl[1];
-		    	}
-		        if(count($nameUrl)==1){
-		    		$name=$index;
-		    		$url=$nameUrl[0];
-		    	}
-		    	$index++;
-		    	$temp=array('name'=>$name,'video_urls'=>array());		    		
-		    	if((isset($numPlatformUrl[$name]) && is_array($numPlatformUrl[$name]))){
-		    		$temp =$numPlatformUrl[$name];
-		    	}
-		    	
-		    	if( !ProgramUtil::isN($url) && (ProgramUtil::urlValid($url))){
-			    	$temp['video_urls'][]=array(
-			    	  'source'=>$tmpplayfrom,
-	                  'url'=>$url
-			    	);
-		    	}
-		    	$numPlatformUrl[$name]=$temp;
-		    }
-		}
-		$keys= array_keys($numPlatformUrl);
-		$sp = array();
-		for($i=0;$i<count($keys);$i++){
-			$sp[]=$numPlatformUrl[$keys[$i]];
-		}
-		return $sp;
-   }
+
+    private static function getTVWebList($tmpweburl,$tmpplayfrom,$tmpvideo){
+        if (is_null($tmpweburl) || $tmpweburl==''  ||is_null($tmpplayfrom) || $tmpplayfrom=='') {
+            return  array();
+        }
+
+
+        $webArrays = explode("$$$",$tmpweburl);
+        $playfromArray = explode("$$$",$tmpplayfrom);
+
+        $numPlatformUrl = array();
+
+        for ($k=0;$k<count($playfromArray);$k++){
+            $tmpplayfrom=$playfromArray[$k];
+
+            if(is_null($tmpplayfrom) || $tmpplayfrom=='' || strpos("wasu,kankan,tudou,cntv", $tmpplayfrom) !==false){
+                continue;
+            }
+
+            $platformWebUrl= $webArrays[$k];
+            if (is_null($platformWebUrl) || $platformWebUrl=='') { $platformWebUrl="";}
+            $webUrls=explode("{Array}",$platformWebUrl);
+
+            $tmpvideoids=explode("{Array}",$tmpvideo);
+            $index=1;
+            for ($j=0;$j<count($webUrls);$j++){
+                $webUrl=$webUrls[$j];
+                $tmpvideoid=$tmpvideoids[$j];
+
+                $vidurl=explode("$",$tmpvideoid);
+                $nameUrl=explode("$",$webUrl);
+                $name="";
+                $url="";
+                $vid="";
+                if(count($nameUrl)==2){
+                    $name=$nameUrl[0];
+                    $vid=$vidurl[1];
+                    if(ProgramUtil::isN($name)){
+                        $name=$index;
+                    }
+                    $url=$nameUrl[1];
+                }
+                if(count($nameUrl)==1){
+                    $name=$index;
+                    $url=$nameUrl[0];
+                    $vid=$vidurl[1];
+                }
+                $index++;
+                $temp=array('name'=>$name,'vid'=>$vid,'video_urls'=>array());
+                if((isset($numPlatformUrl[$name]) && is_array($numPlatformUrl[$name]))){
+                    $temp =$numPlatformUrl[$name];
+                }
+
+                if( !ProgramUtil::isN($url) && (ProgramUtil::urlValid($url))){
+                    $temp['video_urls'][]=array(
+                        'source'=>$tmpplayfrom,
+                        'url'=>$url
+                    );
+                }
+                $numPlatformUrl[$name]=$temp;
+            }
+        }
+        $keys= array_keys($numPlatformUrl);
+        $sp = array();
+        for($i=0;$i<count($keys);$i++){
+            $sp[]=$numPlatformUrl[$keys[$i]];
+        }
+        return $sp;
+    }
    
    private static function getContentType($url,$tmpplayfrom){
    	 if('56' === $tmpplayfrom){
