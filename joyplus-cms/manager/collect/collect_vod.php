@@ -737,6 +737,10 @@ $mrowurl = $db ->fetch_array($rs_collect2);
 			$d_area='其他';
 		}
 		$d_remarks = $row["m_remarks"];
+        if (!isNum($d_remarks)){
+            $d_remarks ='';
+        }
+
 		$d_state = $row["m_state"];
 		$d_starring = $row["m_starring"];
 		$d_directed = $row["m_directed"];
