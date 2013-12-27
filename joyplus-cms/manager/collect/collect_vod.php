@@ -690,7 +690,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 	}
 
 	$strSet="";
-	$sql = "SELECT * FROM {pre}vod WHERE d_name = '".$titlenolang."' and d_type = '".$d_type."' ";
+	$sql = "SELECT * FROM {pre}vod WHERE d_playfrom != 'so_hu_cp' and d_name = '".$titlenolang."' and d_type = '".$d_type."' ";
 	//		var_dump($sql);
 	$rowvod = $db->getRow($sql);
 	//	     var_dump($rowvod["d_id"]);
@@ -702,7 +702,7 @@ function MovieInflow($sql_collect,$MovieNumW,$isMandCollect){
 	}
 
 	if ($flag_lang && ( isN($rowvod["d_id"]) || be("post","CCTV")=="1") ) {
-		$sql = "SELECT * FROM {pre}vod WHERE d_name = '".$title."' and d_type = '".$d_type."' ";
+		$sql = "SELECT * FROM {pre}vod WHERE d_playfrom != 'so_hu_cp' and d_name = '".$title."' and d_type = '".$d_type."' ";
 		$rowvod = $db->getRow($sql);
 		if(!isN($rowvod["d_status"]) && ( $rowvod["d_status"]===1 || $rowvod["d_status"] ==='1') ){
 			var_dump($title." is locked");
@@ -737,6 +737,10 @@ $mrowurl = $db ->fetch_array($rs_collect2);
 			$d_area='其他';
 		}
 		$d_remarks = $row["m_remarks"];
+        if (!isNum($d_remarks)){
+            $d_remarks ='';
+        }
+
 		$d_state = $row["m_state"];
 		$d_starring = $row["m_starring"];
 		$d_directed = $row["m_directed"];
