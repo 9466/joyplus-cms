@@ -243,13 +243,16 @@ class ProgramController extends Controller
 			$playback_time= Yii::app()->request->getParam("playback_time");
 			$video_url= Yii::app()->request->getParam("video_url");
 			$duration= Yii::app()->request->getParam("duration");
-			
+			$sid= Yii::app()->request->getParam("sid");
+			$cid= Yii::app()->request->getParam("cid");
+			$vid= Yii::app()->request->getParam("vid");
+
 			if( (!isset($prod_id)) || is_null($prod_id) || (!isset($prod_type)) || is_null($prod_type)  ){
 				IjoyPlusServiceUtils::exportServiceError(Constants::PARAM_IS_INVALID);
 				return;
 			}
 			
-            if( (!isset($video_url)) || is_null($video_url)  || (!isset($play_type)) || is_null($play_type)  ){
+            if((!isset($play_type)) || is_null($play_type)  ){
 				IjoyPlusServiceUtils::exportServiceError(Constants::PARAM_IS_INVALID);
 				return;
 			}
@@ -332,6 +335,9 @@ class ProgramController extends Controller
 			$history->video_url=$video_url;
 			$history->duration=$duration;
 			$history->create_date=new CDbExpression('NOW()');
+			$history->sid=$sid;
+			$history->cid=$cid;
+			$history->vid=$vid;
 			$history->save();
 		    IjoyPlusServiceUtils::exportServiceError(Constants::SUCC);
 		  } catch (Exception $e) {

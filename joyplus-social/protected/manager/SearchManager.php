@@ -613,7 +613,7 @@ ORDER BY d.disp_order asc ';
 	    	return $items;
 	    }
 	    $items= Yii::app()->db->createCommand()
-			->select('items.id as id, vod.d_id as prod_id,vod.d_name as prod_name, vod.d_downurl as play_urls,vod.d_level as definition,vod.d_content as prod_summary, vod.d_type as prod_type,  substring_index( vod.d_pic_ipad, \'{Array}\', 1 )  as prod_pic_url,vod.d_starring as stars,vod.d_directed as directors ,vod.favority_user_count as favority_num ,vod.good_number as support_num ,vod.d_year as publish_date,vod.d_score as score,vod.d_area as area, vod.d_remarks as max_episode, vod.d_state as cur_episode , vod.duraning as duration ')
+			->select('items.id as id, vod.d_id as prod_id,vod.d_name as prod_name,vod.d_sid as sid, vod.d_cid as cid, vod.d_playurl as vid,vod.d_playfrom as sources, vod.d_downurl as play_urls,vod.d_level as definition,vod.d_content as prod_summary, vod.d_type as prod_type,  substring_index( vod.d_pic_ipad, \'{Array}\', 1 )  as prod_pic_url,vod.d_starring as stars,vod.d_directed as directors ,vod.favority_user_count as favority_num ,vod.good_number as support_num ,vod.d_year as publish_date,vod.d_score as score,vod.d_area as area, vod.d_remarks as max_episode, vod.d_state as cur_episode , vod.duraning as duration ')
 			->from('mac_vod_topic_items as items')
 			->join("mac_vod as vod","items.vod_id=vod.d_id")
 			->where('items.flag=:t_flag and items.topic_id=:topic_id and vod.d_hide=0 '.$where, array(
@@ -628,8 +628,19 @@ ORDER BY d.disp_order asc ';
 //	    	  $item['definition']='4';
 	    	  if($item['prod_type'] ==='1'){
 	    	  	$item['play_urls'] = ProgramUtil::parseMovidePlayurl($item['play_urls']);
+                  if($item['sources'] ==='so_hu_cp'){
+                      $vid_arry = explode("{Array}",$item['vid']);
+                      $vids =$vid_arry[0];
+                      $vid = explode("$",$vids);
+                      if(count($vid) ==2){
+                          $item['vid']=$vid[1];
+                      }else if(count($vid) ==1){
+                          $item['vid'] = $vid[0];
+                      }
+                  }
 	    	  }else {
-	    	  	$item['play_urls']=array();
+                    $item['vid'] ='';
+	    	    	$item['play_urls']=array();
 	    	  }
 	    	  $tempList[]=$item;
 	      }
@@ -869,7 +880,7 @@ ORDER BY d.disp_order asc ';
         }
 //       var_dump($where);
 	    $prods= Yii::app()->db->createCommand()
-			->select('d_id as prod_id, d_name as prod_name, d_level as definition, d_type as prod_type,d_pic as prod_pic_url,  substring_index( d_pic_ipad, \'{Array}\', 1 )  as big_prod_pic_url,d_content as prod_sumary,d_starring as star,d_directed as director,d_score as score ,favority_user_count as favority_num ,good_number as support_num ,d_year as publish_date,d_area as area, d_remarks as max_episode, d_state as cur_episode, duraning as duration ')
+			->select('d_id as prod_id, d_name as prod_name,d_playfrom as sources, d_level as definition, d_type as prod_type,d_pic as prod_pic_url,  substring_index( d_pic_ipad, \'{Array}\', 1 )  as big_prod_pic_url,d_content as prod_sumary,d_starring as star,d_directed as director,d_score as score ,favority_user_count as favority_num ,good_number as support_num ,d_year as publish_date,d_area as area, d_remarks as max_episode, d_state as cur_episode, duraning as duration ')
 			->from('mac_vod ')
 			->where('d_hide=:d_hide '.$where .$whereDevice, array(
 				    ':d_hide'=>0,

@@ -185,10 +185,8 @@ private static function parsePadPost($pic_url){
 
                     $vidurl=explode("$",$tmpvideoid);
                     if(count($vidurl) ==2){
-                        $name = $vidurl[0];
                         $vid = $vidurl[1];
                     }else if (count($vid) ==1){
-                        $name = $vidurl[0];
                         $vid = $vidurl[0];
                     }
                 }
