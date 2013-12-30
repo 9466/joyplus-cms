@@ -10,7 +10,7 @@ class ProgramUtil{
 			case Constants::PROGRAM_ANIMATION:
 				$prod['tv']=ProgramUtil::genTV($program,true);
 				break;
-					
+
 			case Constants::PROGRAM_TYPE_SHOW:
 				$prod['show']=ProgramUtil::genTV($program,false);
 				break;
@@ -22,6 +22,9 @@ class ProgramUtil{
 			case Constants::PROGRAM_TYPE_VIDEO:
 				$prod['video']=ProgramUtil::genMovie($program);
 				break;
+            case Constants::PROGRAM_TYPE_RECORD:
+                $prod['show']=ProgramUtil::genTV($program,false);
+                break;
 		}
 		return $prod;
 	}
