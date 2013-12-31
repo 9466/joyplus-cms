@@ -700,7 +700,6 @@ ORDER BY d.disp_order asc ';
    	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
    	    	$where= $where . " and d_area not like '%美国%' ";
    	    }
-            $where= $where . " and d_playfrom not in ('so_hu_cp') ";
 	    $keyword='%'.$keyword.'%';
 //	    $keyword= iconv("iso-8859-1","UTF-8",$keyword);
 	    $prods= Yii::app()->db->createCommand()
@@ -734,7 +733,6 @@ ORDER BY d.disp_order asc ';
    	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
    	    	$where= $where . " and d_area not like '%美国%' ";
    	    }
-            $where= $where . " and d_playfrom not in ('so_hu_cp') ";
 	    $keyword='%'.$keyword.'%';
 //	    $keyword= iconv("iso-8859-1","UTF-8",$keyword);
 	    $prods= Yii::app()->db->createCommand()
