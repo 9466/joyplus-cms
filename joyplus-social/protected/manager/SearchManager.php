@@ -773,7 +773,7 @@ ORDER BY d.disp_order asc ';
    	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
    	    	$where= $where . " and d_area not like '%美国%' ";
    	    }
-	    
+            $where= $where . " and d_playfrom not in ('so_hu_cp') ";
 	    if(strlen($keyword)==1){
 	    	$keyword=$keyword.'';
 	    }else  if(strlen($keyword)==2){
