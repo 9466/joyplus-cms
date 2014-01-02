@@ -731,7 +731,7 @@ function main()
 	if (!isNum($pagenum)){ $pagenum = 1;} else { $pagenum = intval($pagenum);}
 	if ($pagenum < 1) { $pagenum = 1; }
 
-	$where = " d_type in (1,2,3,131) ";
+	$where = " d_type in (1,2,3,131,5) ";
 	$keyword_col = be("all", "keyword_col");
 	if (!isN($keyword)) {
 		$keyword=trim($keyword);
