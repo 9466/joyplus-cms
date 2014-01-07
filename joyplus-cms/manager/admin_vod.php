@@ -157,6 +157,9 @@ function save()
 		//iPad,iphone,apad,aphone,web
 		$can_search_device="iPad,iphone,apad,aphone,web,Vendor";
 	}
+    if($d_playfrom ==="so_hu_cp"){
+        $can_search_device="TV";
+    }
 	if ($flag == "edit") {
 		$db->Update ("{pre}vod", array("d_capital_name","duraning","d_status","can_search_device","d_douban_id","can_play_device","d_video_desc_url","d_play_check","d_pic_ipad","d_type_name","d_name", "d_subname", "d_enname", "d_type","d_letter", "d_state", "d_color", "d_pic", "d_starring", "d_directed", "d_area", "d_year", "d_language", "d_level", "d_stint", "d_hits","d_dayhits","d_weekhits","d_monthhits", "d_topic", "d_content", "d_remarks","d_good","d_bad", "d_usergroup", "d_score", "d_scorecount", "d_hide", "d_time", "webUrls", "d_downurl", "d_playfrom", "d_playserver"), array($d_capital_name,$duraning,$d_status,$can_search_device,$d_douban_id,$can_play_device,$d_video_desc_url,$d_play_check,$d_pic_ipad,$d_type_name,$d_name, $d_subname, $d_enname, $d_type, $d_letter, $d_state, $d_color, $d_pic, $d_starring, $d_directed, $d_area, $d_year, $d_language, $d_level, $d_stint, $d_hits, $d_dayhits, $d_weekhits, $d_monthhits ,$d_topic, $d_content, $d_remarks, $d_good, $d_bad, $d_usergroup, $d_score, $d_scorecount, $d_hide, $d_time, $d_playurl, $d_downurl, $d_playfrom, $d_playserver), "d_id=" . $d_id);
 	}
@@ -1737,7 +1740,7 @@ $(document).ready(function(){
 			},
 			d_name:{
 				required:true,
-				maxlength:254,
+				maxlength:254
 			},
 			d_subname:{
 				maxlength:254
