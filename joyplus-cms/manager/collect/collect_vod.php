@@ -722,6 +722,8 @@ function MovieInflow($sql_collect, $MovieNumW, $isMandCollect)
         $title = replaceStr($title, " 国语", "");
         $testUrl = $row["m_urltest"];
         $year = $row['m_year'];
+        $typeName = $row["m_type"];
+        $duraning = $row["duraning"];
         $title = replaceStr($title, "'", "''");
         $titlenolang = $title;
         $d_language = $row["m_language"];
@@ -810,9 +812,8 @@ function MovieInflow($sql_collect, $MovieNumW, $isMandCollect)
             }
             $d_enname = hanzi2pinyin($d_name);
             $d_capital_name = Hanzi2PinYin_Captial($d_name);
-            if (isN($d_letter)) {
-                $d_letter = strtoupper(substring($d_enname, 1));
-            }
+            $d_letter = strtoupper(substring($d_enname, 1));
+
             if ($row["m_typeid"] > 0) {
                 $d_type = $row["m_typeid"];
             } else {
@@ -907,7 +908,7 @@ function MovieInflow($sql_collect, $MovieNumW, $isMandCollect)
             $strSet .= " d_name='" . $title . "', ";
 
             $d_enname = hanzi2pinyin($title);
-            $strSet .= " d_enname='" . d_enname . "', ";
+            $strSet .= " d_enname='" . $d_enname . "', ";
 
             $d_capital_name = Hanzi2PinYin_Captial($title);
 
@@ -975,9 +976,7 @@ function MovieInflow($sql_collect, $MovieNumW, $isMandCollect)
             $strSet .= "d_name='" . $title . "',";
             $d_enname = hanzi2pinyin($title);
             $strSet .= "d_enname='" . $d_enname . "',";
-            if (isN($d_letter)) {
-                $d_letter = strtoupper(substring($d_enname, 1));
-            }
+            $d_letter = strtoupper(substring($d_enname, 1));
             $strSet .= "d_letter='" . $d_letter . "',";
             $d_addtime = date('Y-m-d H:i:s', time());
             $strSet .= "d_time='" . $d_addtime . "',";

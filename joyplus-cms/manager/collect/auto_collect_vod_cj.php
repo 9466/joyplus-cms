@@ -642,15 +642,13 @@ function updateVod($duration,$baiduwebUrls,$p_id,$titlecode,$piccode,$typecode,$
 				$setname=trim($setname);
 				
 			   $sql="SELECT {pre}cj_vod_url.u_url,{pre}cj_vod_url.u_id FROM ({pre}cj_vod_url INNER JOIN {pre}cj_vod ON {pre}cj_vod_url.u_movieid = {pre}cj_vod.m_id)  where {pre}cj_vod_url.name='" . $setname . "' and {pre}cj_vod.m_pid=" . $p_id . " and {pre}cj_vod.m_id=" . $movieid;
-			   
+
      		   $rowurl = $db->getRow($sql);
-     		   
-			    if ($rowurl) {
-					 $db->Delete('{pre}cj_vod_url', "u_id=".$rowurl['u_id']);
-			   }
-			   
+
+			    if (empty($rowurl)) {
 			   writetofile("sql.txt","insert into {pre}cj_vod_url(u_url,u_movieid,u_weburl,iso_video_url,name,android_vedio_url) values('".$url."','".$movieid."','".$WebTestx."','".$videoAddressUrl."','".$setname."' ,'".$androidUrl."' )");
 			   $db->query("insert into {pre}cj_vod_url(pic,u_url,u_movieid,u_weburl,iso_video_url,name,android_vedio_url) values('".$picurl."','".$url."','".$movieid."','".$WebTestx."','".$videoAddressUrl."','".$setname."' ,'".$androidUrl."' )");
+                }
 			}
 			
 }

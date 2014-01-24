@@ -24,7 +24,9 @@ class TopController extends Controller
         $top_id= 4677;
 		
 		try{
+            if (isset($macaddress) && isset($business)){
 			User::model()->recordUser($macaddress,$business);
+            }
 		  $lists = SearchManager::listTVNetItems($top_id,$page_size,$page_size*($page_num-1));
 		  if(isset($lists) && is_array($lists)){				
 		    IjoyPlusServiceUtils::exportEntity(array('items'=>$lists));
@@ -498,5 +500,36 @@ class TopController extends Controller
 			}
 			
 		}
+
+    function actionSohuProduce(){
+        header('Content-type: application/json');
+        if(!IjoyPlusServiceUtils::validateAPPKey()){
+            IjoyPlusServiceUtils::exportServiceError(Constants::APP_KEY_INVALID);
+            return ;
+        }
+
+        $page_size=Yii::app()->request->getParam("page_size");
+        $page_num=Yii::app()->request->getParam("page_num");
+        if(!(isset($page_size) && is_numeric($page_size))){
+            $page_size=10;
+            $page_num=1;
+        }else if(!(isset($page_num) && is_numeric($page_num))){
+            $page_num=1;
+        }
+
+        $top_id= 12192;
+
+        try{
+            $lists = SearchManager::listSohuProduce($top_id,$page_size,$page_size*($page_num-1));
+            if(isset($lists) && is_array($lists)){
+                IjoyPlusServiceUtils::exportEntity(array('results'=>$lists));
+            }else {
+                IjoyPlusServiceUtils::exportEntity(array('results'=>array()));
+            }
+        }catch (Exception $e){
+            Yii::log( CJSON::encode($e), "error");
+            IjoyPlusServiceUtils::exportServiceError(Constants::SYSTEM_ERROR);
+        }
+    }
 	
 }
