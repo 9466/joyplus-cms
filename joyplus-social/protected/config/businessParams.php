@@ -10,6 +10,7 @@ return array(
 		'adminEmail'=>'webmaster@ijoyplus.com',
 
 		'app_key'=>'72dbdcec3b85d5d21c6777c696bc6aa3,24d8190c4578eeb613b2d8a2a2bee66d,3e241545d4dd0b27487c95426c98eb79', // test
+        'recommed_url'=>'http://localhost/recommend/',
         'CACHE_PARAM_EXPIRED_DEFAULT'=>'3600',
         'CACHE_PARAM_EXPIRED_USER'=>'3600',
         'CACHE_PARAM_EXPIRED_PROGRAM'=>'3600',
