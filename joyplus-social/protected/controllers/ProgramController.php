@@ -353,7 +353,7 @@ class ProgramController extends Controller
                  'cid'=>$cid,
                  'vid'=>$vid
             );
-             SendBeanstalkMessage::sendMessage(json_encode($play_history));
+             SendBeanstalk::sendMessage(json_encode($play_history));
 		    IjoyPlusServiceUtils::exportServiceError(Constants::SUCC);
 		  } catch (Exception $e) {
 			$transaction->rollback();
