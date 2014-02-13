@@ -339,6 +339,21 @@ class ProgramController extends Controller
 			$history->cid=$cid;
 			$history->vid=$vid;
 			$history->save();
+            $play_history = array(
+                'user_id'=>$userid,
+                'prod_type'=>$prod_type,    //视频类型
+                'prod_name'=>$prod_name,    //视频名称
+                 'prod_subname'=>$prod_subname,  //视频集数
+                 'prod_id'=>$prod_id,
+                 'play_type'=>$play_type,         //播放类型  1：播放器播放     3
+                 'playback_time'=>$playback_time,
+                 'video_url'=>$video_url,
+                 'duration'=>$duration,
+                 'sid'=>$sid,
+                 'cid'=>$cid,
+                 'vid'=>$vid
+            );
+             SendBeanstalkMessage::sendMessage(json_encode($play_history));
 		    IjoyPlusServiceUtils::exportServiceError(Constants::SUCC);
 		  } catch (Exception $e) {
 			$transaction->rollback();
