@@ -883,6 +883,9 @@ function MovieInflow($sql_collect, $MovieNumW, $isMandCollect)
             } else if ($row["m_playfrom"] != "youku" && (strpos($rowvod["d_playfrom"], "youku") !== false || @strpos($rowvod["d_playfrom"], "p2p") !== false)) {
                 echo " 库内存在p2p或优酷不入库   视频名称： \"" . $title . "\"  播放源： " . $row["m_playfrom"] . "\";";
                 continue;
+            }else if(isN($mrowurl["iso_video_url"]) && isN($mrowurl["android_vedio_url"]) && $row["m_playfrom"] === "fengxing") {
+                echo " fengxing无下载地址不更新入库   视频名称： \"" . $title . "\"  播放源： " . $row["m_playfrom"] . "\";";
+                continue;
             }
             //更新数据开始
             if ($row["m_typeid"] > 0) {

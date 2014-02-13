@@ -41,7 +41,9 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   	
   	public static function getContentProvider($providerName){
   		if(ContentProviderFactory::LETV===$providerName ){
-  			return new LetvContent();               
+            $content= new JoyplusContent();
+            $content->from='letv';
+            return $content;
   		}else if('le_tv_fee'===$providerName ){
                $content= new JoyplusContent();
                $content->from='letv';
@@ -67,9 +69,7 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   		}else if(ContentProviderFactory::SINA===$providerName ){
   			return new SinaContent();
   		}else if(ContentProviderFactory::QI_YI===$providerName ){
-            $content= new JoyplusContent();
-            $content->from='qiyi';
-            return $content;
+            return IqiyiContent();
   		}else if(ContentProviderFactory::M1905===$providerName ){
   			return new M1905Content();
   		}else if('le_v2'===$providerName ){
