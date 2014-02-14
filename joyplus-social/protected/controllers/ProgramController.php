@@ -321,6 +321,8 @@ class ProgramController extends Controller
 			}else {
 			   $history = PlayHistory::model()->getHisotryByProd($userid, $prod_id);
 			}
+               $remarks = Program::model()->getProgram($prod_id);
+               $remarks = $remarks[0]->d_remarks;
 			if($history === null){
 			     $history = new PlayHistory();
 			}		
@@ -341,22 +343,22 @@ class ProgramController extends Controller
 			$history->save();
             $play_history = array(
                 'user_id'=>$userid,
-                'prod_type'=>$prod_type,    //视频类型
+                'prod_type'=>$prod_type,    //视频类型 1 电影 2 电视剧 3 综艺 131 动漫
                 'prod_name'=>$prod_name,    //视频名称
                  'prod_subname'=>$prod_subname,  //视频集数
                  'prod_id'=>$prod_id,
                  'play_type'=>$play_type,         //播放类型  1：播放器播放     3
-                 'playback_time'=>$playback_time,
-                 'video_url'=>$video_url,
-                 'duration'=>$duration,
-                 'sid'=>$sid,
+                 'playback_time'=>$playback_time,   //播放时长
+                 'video_url'=>$video_url,            //视频网页地址
+                 'duration'=>$duration,              //总时长
+                 'sid'=>$sid,                        //sid cid vid 搜狐视频专用，标识视频id信息
                  'cid'=>$cid,
-                 'vid'=>$vid
+                 'vid'=>$vid,
+                 'remarks'=>$remarks
             );
              SendBeanstalk::sendMessage(json_encode($play_history));
 		    IjoyPlusServiceUtils::exportServiceError(Constants::SUCC);
 		  } catch (Exception $e) {
-			$transaction->rollback();
 			IjoyPlusServiceUtils::exportServiceError(Constants::SYSTEM_ERROR);
 		  }
 		}

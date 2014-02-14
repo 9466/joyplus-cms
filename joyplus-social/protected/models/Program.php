@@ -77,7 +77,14 @@ class Program extends CActiveRecord
 		));
 	   
 	}
-
+    public function getProgram($programid){
+        return $this->findAll(array(
+            'condition'=>'d_id=:prod_id',
+            'params'=>array(
+                ':prod_id'=>$programid
+            ),
+        ));
+    }
 	/**
 	 * @return string the associated database table name
 	 */
