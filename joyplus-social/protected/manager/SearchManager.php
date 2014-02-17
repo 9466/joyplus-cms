@@ -479,7 +479,7 @@ ORDER BY d.disp_order asc ';
 	    	return $items;
 	    }
 	    $items= Yii::app()->db->createCommand()
-			->select('items.id as id, vod.d_id as prod_id,vod.d_name as prod_name, vod.d_level as definition, vod.d_type as prod_type, vod.d_pic as prod_pic_url,substring_index( vod.d_pic_ipad, \'{Array}\', 1 )  as big_prod_pic_url,vod.d_starring as stars,vod.d_directed as directors ,vod.favority_user_count as favority_num ,vod.good_number as support_num,vod.d_year as publish_date,vod.d_score as score,vod.d_area as area, vod.d_remarks as max_episode, vod.d_state as cur_episode , vod.duraning as duration ')
+			->select('items.id as id, vod.d_id as prod_id,vod.d_name as prod_name, vod.d_level as definition, vod.d_type as prod_type,vod.d_playfrom as sources, vod.d_pic as prod_pic_url,substring_index( vod.d_pic_ipad, \'{Array}\', 1 )  as big_prod_pic_url,vod.d_starring as stars,vod.d_directed as directors ,vod.favority_user_count as favority_num ,vod.good_number as support_num,vod.d_year as publish_date,vod.d_score as score,vod.d_area as area, vod.d_remarks as max_episode, vod.d_state as cur_episode , vod.duraning as duration ')
 			->from('mac_vod_topic_items as items')
 			->join("mac_vod as vod","items.vod_id=vod.d_id")
 			->where('items.flag=:t_flag and items.topic_id=:topic_id and  vod.d_hide=0 '.$where, array(
@@ -700,7 +700,6 @@ ORDER BY d.disp_order asc ';
    	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
    	    	$where= $where . " and d_area not like '%美国%' ";
    	    }
-   	    
 	    $keyword='%'.$keyword.'%';
 //	    $keyword= iconv("iso-8859-1","UTF-8",$keyword);
 	    $prods= Yii::app()->db->createCommand()
@@ -734,7 +733,6 @@ ORDER BY d.disp_order asc ';
    	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
    	    	$where= $where . " and d_area not like '%美国%' ";
    	    }
-	    
 	    $keyword='%'.$keyword.'%';
 //	    $keyword= iconv("iso-8859-1","UTF-8",$keyword);
 	    $prods= Yii::app()->db->createCommand()
@@ -773,7 +771,7 @@ ORDER BY d.disp_order asc ';
    	    if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
    	    	$where= $where . " and d_area not like '%美国%' ";
    	    }
-	    
+//            $where= $where . " and d_playfrom not in ('so_hu_cp') ";
 	    if(strlen($keyword)==1){
 	    	$keyword=$keyword.'';
 	    }else  if(strlen($keyword)==2){
@@ -893,6 +891,41 @@ ORDER BY d.disp_order asc ';
 	    }
 	    return $prods;
 	}
+
+    public static function listSohuProduce($top_id,$limit,$offset){
+        $device=IjoyPlusServiceUtils::getDevice();
+        $where='';
+        if($device ===false){
+            $key =SearchManager::CACHE_LIST_ITEMS_BY_TYPE_LIMIT_OFFSET.'_SohuProduce_'.$top_id.'_LIMIT_'.$limit.'_OFFSET_'.$offset;
+        }else {
+            $where=' AND (can_search_device like \'%'.$device.'%\' or can_search_device is null or can_search_device =\'\' ) ';
+            $key =SearchManager::CACHE_LIST_ITEMS_BY_TYPE_LIMIT_OFFSET.'_SohuProduce_'.$top_id.'_LIMIT_'.$limit.'_OFFSET_'.$offset.'_DEVICE_'.$device;
+        }
+
+        if(IjoyPlusServiceUtils::isExcludeCopyMovie()){
+            $where= $where . " and vod.d_area not like '%美国%' ";
+        }
+
+        $items = CacheManager::getValueFromCache($key);
+        if($items){
+            return $items;
+        }
+        $items= Yii::app()->db->createCommand()
+            ->select('vod.d_id as prod_id,vod.d_name as prod_name,vod.d_playfrom as sources,vod.d_level as definition, vod.d_type as prod_type,  substring_index( vod.d_pic, \'{Array}\', 1 )  as prod_pic_url, substring_index( vod.d_pic_ipad, \'{Array}\', 1 )  as big_prod_pic_url, vod.d_content as prod_summary,vod.d_starring as star,vod.d_directed as director ,vod.d_score as score,vod.favority_user_count as favority_num ,vod.good_number as support_num ,vod.d_year as publish_date,vod.d_area as area, vod.d_remarks as max_episode, vod.d_state as cur_episode , vod.duraning as duration ')
+            ->from('mac_vod_topic_items as items')
+            ->join("mac_vod as vod","items.vod_id=vod.d_id")
+            ->where('items.flag=:t_flag and items.topic_id=:topic_id and vod.d_hide=0 '.$where, array(
+                    ':t_flag'=>1,
+                    ':topic_id'=>$top_id,
+                ))->order('items.disp_order desc, vod.d_level desc ,vod.d_good desc,vod.d_time DESC ')->limit($limit)->offset($offset)
+            ->queryAll();
+
+        if(isset($items) && !is_null($items)){
+            $prodExpired = CacheManager::getExpireByCache(CacheManager::CACHE_PARAM_EXPIRED_POPULAR_PROGRAM);
+            CacheManager::setValueToCache($key, $items,$prodExpired);
+        }
+        return $items;
+    }
 }
 
 ?>

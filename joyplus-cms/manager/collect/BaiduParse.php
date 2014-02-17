@@ -217,13 +217,13 @@ class BaiduParse{
 			$vedio_id=getBody($contentSt, "id: '", "'");
 			$info->id=$vedio_id;
 			if($type ===1 || $type ==='1') {
-				$url='http://video.baidu.com/movie_intro/?dtype=playUrl&service=json&frp=browse&id='.$vedio_id;
+				$url='http://v.baidu.com/movie_intro/?dtype=playUrl&service=json&id='.$vedio_id;
 			}else if($type ===2 || $type ==='2'){
-				$url='http://video.baidu.com/tv_intro/?dtype=tvPlayUrl&service=json&frp=browse&id='.$vedio_id;
+				$url='http://v.baidu.com/tv_intro/?dtype=tvPlayUrl&service=json&id='.$vedio_id;
 			}else if($type ===3 || $type ==='3'){
-				$url='http://v.baidu.com/show_intro/?dtype=tvshowPlayUrl&service=json&frp=browse&year=2013&id='.$vedio_id;
+				$url='http://v.baidu.com/show_intro/?dtype=tvshowPlayUrl&service=json&frp=browse&year=2014&id='.$vedio_id;
 			}else if($type ===131 || $type ==='131'){
-				$url='http://video.baidu.com/comic_intro/?dtype=comicPlayUrl&service=json&frp=browse&id='.$vedio_id;
+				$url='http://v.baidu.com/comic_intro/?dtype=comicPlayUrl&service=json&id='.$vedio_id;
 			}
 
 			writetofile("baiducontent.log","request url:".$url);
@@ -456,7 +456,7 @@ class BaiduParse{
 			'酷6'=>'ku6',
 			'新浪'=>'sinahd',
 			'迅雷看看'=>'kankan',
-			'乐视'=>'le_v2',
+			'乐视'=>'letv',
 			'腾讯'=>'qq',
 			'PPS'=>'pps',
 			'PPTV'=>'pptv',
@@ -474,7 +474,7 @@ class BaiduParse{
 			'ku6.com'=>'ku6',
 			'sina.com.cn'=>'sinahd',
 			'kankan.com'=>'kankan',
-			'letv.com'=>'le_v2',
+			'letv.com'=>'letv',
 			'qq.com'=>'qq',
 			'pps.tv'=>'pps',
 			'PPTV'=>'pptv',

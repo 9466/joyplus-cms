@@ -849,12 +849,10 @@ function updateVod($baiduwebUrls,$p_id,$titlecode,$piccode,$typecode,$areacode,$
 
 		$rowurl = $db->getRow($sql);
 
-		if ($rowurl) {
-			$db->Delete('{pre}cj_vod_url', "u_id=".$rowurl['u_id']);
-		}
-
+		if (empty($rowurl)) {
 		writetofile("sql.txt","insert into {pre}cj_vod_url(u_url,u_movieid,u_weburl,iso_video_url,name,android_vedio_url) values('".$url."','".$movieid."','".$WebTestx."','".$videoAddressUrl."','".$setname."' ,'".$androidUrl."' )");
 		$db->query("insert into {pre}cj_vod_url(pic,u_url,u_movieid,u_weburl,iso_video_url,name,android_vedio_url) values('".$picurl."','".$url."','".$movieid."','".$WebTestx."','".$videoAddressUrl."','".$setname."' ,'".$androidUrl."' )");
+        }
 	}
 		
 }
