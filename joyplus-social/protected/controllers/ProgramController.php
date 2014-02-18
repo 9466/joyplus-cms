@@ -264,7 +264,7 @@ class ProgramController extends Controller
 			
 		 try{
 		    $userid=Yii::app()->user->id;
-		    		    
+		    $ip = IpUtils::getIp();
 			$HTTP_CLIENT= isset($_SERVER['HTTP_CLIENT'])?$_SERVER['HTTP_CLIENT']:"";
 			//remove the code, needn't the requirement.
 //			if($HTTP_CLIENT ===null || $HTTP_CLIENT ===''){
@@ -354,7 +354,9 @@ class ProgramController extends Controller
                  'sid'=>$sid,                        //sid cid vid 搜狐视频专用，标识视频id信息
                  'cid'=>$cid,
                  'vid'=>$vid,
-                 'remarks'=>$remarks
+                 'remarks'=>$remarks,
+                 'ip'=>$ip,
+                'create_date'=> date('Y-m-d H:i:s')
             );
              SendBeanstalk::sendMessage(json_encode($play_history));
 		    IjoyPlusServiceUtils::exportServiceError(Constants::SUCC);
