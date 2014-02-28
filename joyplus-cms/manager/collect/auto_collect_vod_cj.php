@@ -340,7 +340,7 @@ function cjList()
 
 
 function cjBaiduView($strlink,$num){
-	global $starringarr,$titlearr,$picarr,$strListUrl,$p_playspecialtype,$p_playtype, $p_videocodeType,$p_videocodeApiUrl,$p_id,$p_videocodeApiUrlParamstart,$p_videocodeApiUrlParamend,$p_videourlstart,$p_videourlend, $playcodeApiUrl,$playcodeApiUrlParamstart,$p_playcodeApiUrlParamend,$playcodeApiUrltype,$db,$strListUrl,$p_titletype,$starringarr,$titlearr,$picarr,$p_id,$p_titlestart,$p_titleend,$p_lzstart,$p_lzend,$p_hitsstart,$p_hitsend,$p_starringtype,$p_starringstart,$p_starringend,$p_picstart,$p_picend,$p_typestart,$p_typeend,$p_pictype,$p_classtype,$p_collect_type,$p_timestart,$p_timeend,$p_areastart,$p_areaend,$p_contentstart,$p_contentend,$p_playcodestart,$p_playcodeend,$p_playlinkstart,$p_playlinkend,$p_playurlstart,$p_playurlend,$p_playcodetype,$p_playlinktype,$p_playtype,$p_coding,$p_lzstart,$p_lzend,$p_lzcodetype,$p_lzcodestart,$p_lzcodeend,$p_languagestart,$p_languageend,$p_remarksstart,$p_remarksend,$p_script,$p_showtype,$p_savefiles,$strdstate,$p_server,$p_setnametype,$p_setnamestart,$p_setnameend,$p_directedstart,$p_directedend,$cache;
+	global $starringarr,$titlearr,$picarr,$typearr,$areaarr,$yeararr,$strListUrl,$p_playspecialtype,$p_playtype, $p_videocodeType,$p_videocodeApiUrl,$p_id,$p_videocodeApiUrlParamstart,$p_videocodeApiUrlParamend,$p_videourlstart,$p_videourlend, $playcodeApiUrl,$playcodeApiUrlParamstart,$p_playcodeApiUrlParamend,$playcodeApiUrltype,$db,$strListUrl,$p_titletype,$starringarr,$titlearr,$picarr,$p_id,$p_titlestart,$p_titleend,$p_lzstart,$p_lzend,$p_hitsstart,$p_hitsend,$p_starringtype,$p_starringstart,$p_starringend,$p_picstart,$p_picend,$p_typestart,$p_typeend,$p_pictype,$p_classtype,$p_collect_type,$p_timestart,$p_timeend,$p_areastart,$p_areaend,$p_contentstart,$p_contentend,$p_playcodestart,$p_playcodeend,$p_playlinkstart,$p_playlinkend,$p_playurlstart,$p_playurlend,$p_playcodetype,$p_playlinktype,$p_playtype,$p_coding,$p_lzstart,$p_lzend,$p_lzcodetype,$p_lzcodestart,$p_lzcodeend,$p_languagestart,$p_languageend,$p_remarksstart,$p_remarksend,$p_script,$p_showtype,$p_savefiles,$strdstate,$p_server,$p_setnametype,$p_setnamestart,$p_setnameend,$p_directedstart,$p_directedend,$cache;
 	$androidUrl="";
 	//var_dump($strlink);var_dump($strListUrl);
     try {
@@ -463,6 +463,12 @@ function cjBaiduView($strlink,$num){
 			$typecode = trim($typecode);
 			$m_typeid = changeId($typecode,$p_id,0,0);
 		}
+
+        if(isN($typecode) || $typecode ===""){
+            $typecode = $typearr[$num];
+            $typecode = trim($typecode);
+        }
+
 		$m_typeid = $p_collect_type;
 		if (!isN($info->type)){
 			  $typecode=$info->type;
@@ -535,11 +541,22 @@ function cjBaiduView($strlink,$num){
 			$timecode =  !isN($info->pubdate)?$info->pubdate:$timecode;
 			 $timecode =trim(replaceStr($timecode, "&nbsp;", ' '));
 			$timecode = trim($timecode);
+
+            if(isN($timecode) || $timecode ===""){
+                $timecode = $yeararr[$num];
+                $timecode = trim($timecode);
+            }
 			//地区
 			$areacode = filterScript(getBody($strViewCode,$p_areastart,$p_areaend),$p_script);
 			if ($areacode ==false){ $areacode = "未知" ;}
 			$areacode = !isN($info->area)?$info->area:$areacode;
 			$areacode = trim($areacode);
+
+            if(isN($areacode) || $areacode ===""){
+                $areacode = $areaarr[$num];
+                $areacode = trim($areacode);
+            }
+
 			//内容
 			$contentcode = filterScript(getBody($strViewCode,$p_contentstart,$p_contentend),$p_script);
 			if ($contentcode ==false){ $contentcode = "未知" ;}
