@@ -264,7 +264,7 @@ class ProgramController extends Controller
 			
 		 try{
 		    $userid=Yii::app()->user->id;
-		    		    
+		    $ip = IpUtils::getIp();
 			$HTTP_CLIENT= isset($_SERVER['HTTP_CLIENT'])?$_SERVER['HTTP_CLIENT']:"";
 			//remove the code, needn't the requirement.
 //			if($HTTP_CLIENT ===null || $HTTP_CLIENT ===''){
@@ -354,7 +354,9 @@ class ProgramController extends Controller
                  'sid'=>$sid,                        //sid cid vid 搜狐视频专用，标识视频id信息
                  'cid'=>$cid,
                  'vid'=>$vid,
-                 'remarks'=>$remarks
+                 'remarks'=>$remarks,
+                 'ip'=>$ip,
+                'create_date'=> date('Y-m-d H:i:s')
             );
              SendBeanstalk::sendMessage(json_encode($play_history));
 		    IjoyPlusServiceUtils::exportServiceError(Constants::SUCC);
@@ -1267,15 +1269,17 @@ class ProgramController extends Controller
                 $userid = Yii::app()->request->getParam("user_id");
             }
             try{
-            $ch = curl_init(Yii::app()->params['recommed_url'].$userid."/?howMany=5") ;
+            $ch = curl_init(Yii::app()->params['recommed_url'].$userid."/?howMany=30") ;
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true) ; // 获取数据返回
             curl_setopt($ch, CURLOPT_BINARYTRANSFER, true) ; // 在启用 CURLOPT_RETURNTRANSFER 时候将获取数据返回
             $results = curl_exec($ch) ;
                 if(strpos($results,"Error") ===false){
                     $results = explode("\n",$results);
+                    array_pop($results);
+                    $rand_results = array_rand($results,6);
                     $lists = array();
-                    for($i=0; $i<count($results); $i++){
-                        $item_id = $results[$i];
+                    for($i=0; $i<count($rand_results); $i++){
+                        $item_id = $results[$rand_results[$i]];
                         $item_id = explode(",",$item_id);
                         $item_id = $item_id[0];
                         if($item_id != ''){
