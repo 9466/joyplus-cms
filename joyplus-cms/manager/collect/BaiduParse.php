@@ -33,6 +33,7 @@ class BaiduParse{
 				$areaarrcode= array();
 				$typearrcode= array();
 				$yeararrcode= array();
+				$idarrcode= array();
 				foreach ($videos as $video){
 					//  	 			  	var_dump($video);
 
@@ -71,11 +72,17 @@ class BaiduParse{
 					}else {
 						$typearrcode[]='';
 					}
+					if(property_exists($video, 'id')){
+						$idarrcode[]=$video->id;
+					}else {
+                        $idarrcode[]='';
+					}
 
 
 				}
 					
 				return array(
+                   'idarr'=>$idarrcode,
   	 			   'linkarr'=>$linkarr,
   	 			   'typearr'=>$typearrcode,
   	 			   'areaarr'=>$areaarrcode,
