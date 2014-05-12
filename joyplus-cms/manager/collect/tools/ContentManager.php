@@ -9,7 +9,8 @@ require_once (dirname(__FILE__)."/M1905Content.php");
 require_once (dirname(__FILE__)."/IqiyiContent.php");
 require_once (dirname(__FILE__)."/TudouContent.php");
 require_once (dirname(__FILE__)."/DefaultContent.php");
-require_once (dirname(__FILE__)."/WLContent.php"); 
+require_once (dirname(__FILE__)."/QQContent.php");
+require_once (dirname(__FILE__)."/WLContent.php");
 require_once (dirname(__FILE__)."/FengXingContent.php");//http://www.56.com/u42/v_NjY3MTUyOTU.html
 require_once (dirname(__FILE__)."/../MovieType.php");
 require_once (dirname(__FILE__)."/../../admin_conn.php");
@@ -25,7 +26,7 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   	const SINA="sinahd";
   	const QI_YI="qiyi";
   	const TANG_DOU="tangdou";
-        const M1905="m1905";
+    const M1905="m1905";
   	
   	const YOU_KU_CAN_PLAY_CONTENT="优酷网未能找到您所访问的地址";
   	const TU_DOU_CAN_PLAY_CONTENT="哎呀！你想访问的网页不存在。";
@@ -49,10 +50,8 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
                $content->from='letv';
                return $content;
   		}else if(ContentProviderFactory::TU_DOU===$providerName ){
-//  			return new TudouContent();
                return new DefaultContent();
   		}else if(ContentProviderFactory::PPTV===$providerName ){
-//  		 return new PPTVContent();
              return new DefaultContent();
   		}else if(ContentProviderFactory::YOU_KU===$providerName ){
   			return new YouKuContent();
@@ -68,20 +67,11 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
                return $content;
   		}else if(ContentProviderFactory::SINA===$providerName ){
   			return new SinaContent();
-  		}else if(ContentProviderFactory::QI_YI===$providerName ){
-            return IqiyiContent();
   		}else if(ContentProviderFactory::M1905===$providerName ){
   			return new M1905Content();
-  		}else if('le_v2'===$providerName ){
-  			   $content= new JoyplusContent();
-               $content->from='letv/v2';
-               return $content;
-  		}else if('le_v2_fee'===$providerName ){
-  			   $content= new JoyplusContent();
-               $content->from='letv/v2';
-               return $content;
-  		}
-  		else {
+  		}else if(ContentProviderFactory::QQ===$providerName ){
+            return new QQContent();
+        }else {
   		  return new DefaultContent();
   		}  		
   	}
@@ -91,8 +81,6 @@ require_once (dirname(__FILE__)."/../../admin_conn.php");
   	    if(!isset($providerName) || is_null($providerName) || $providerName ==='no' ){
   	    	return true;
   	    }
-  	    $content="";
-  	    $judgeContent="";
   		if(ContentProviderFactory::YOU_KU===$providerName ){
   			$judgeContent=ContentProviderFactory::YOU_KU_CAN_PLAY_CONTENT;
   			$content=getPage($url, 'utf-8');

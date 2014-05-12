@@ -9,9 +9,9 @@
 require_once ("../admin_conn.php");
 require_once ("collect_fun.php");
 require_once ("tools/ContentManager.php");
-define("CATEGORY","https://openapi.youku.com/v2/shows/by_category.json?client_id=&category={category}&release_year=&page={page}&count=20&paid=0");
-define("VIDEOS","https://openapi.youku.com/v2/shows/videos.json?client_id=&show_id={id}&page=1&count={count}");
-define("SHOWINFO","https://openapi.youku.com/v2/shows/show.json?client_id=&show_id={id}");
+define("CATEGORY","https://openapi.youku.com/v2/shows/by_category.json?client_id=715115c589f8533a&category={category}&release_year=&page={page}&count=20&paid=0");
+define("VIDEOS","https://openapi.youku.com/v2/shows/videos.json?client_id=715115c589f8533a&show_id={id}&page=1&count={count}");
+define("SHOWINFO","https://openapi.youku.com/v2/shows/show.json?client_id=715115c589f8533a&show_id={id}");
 
 
 
@@ -72,8 +72,12 @@ function  ProcessVideos($siteObject,$type_id,$pid){
     if ($rowvod) {
         $movieid=$rowvod["m_id"];
         $lzcode =$siteObject->episode_updated;
-        $remarkscode =$siteObject->episode_count;
-        $sql = "update {pre}cj_vod set m_addtime='".date('Y-m-d H:i:s',time())."',m_zt='0',m_typeid='".$type_id."',m_playserver='0',m_state='".$lzcode."',m_remarks='".$remarkscode."' where m_id=".$movieid;
+        if($type_id ==="3"){
+            $remarks = $siteObject->episode_updated;
+        }else{
+            $remarks= $siteObject->episode_count;
+        }
+        $sql = "update {pre}cj_vod set m_addtime='".date('Y-m-d H:i:s',time())."',m_zt='0',m_typeid='".$type_id."',m_playserver='0',m_state='".$lzcode."',m_remarks='".$remarks."' where m_id=".$movieid;
         $db->query($sql);
     }
     else{

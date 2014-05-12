@@ -12,6 +12,7 @@ class YouKuContent extends Content{
 
   	private $p_code="UTF-8";
     public function parseAndroidVideoUrl($url,$p_coding,$p_script){
+        return "";
     	$vid = getBody($url,$this->htmlparmStart,$this->htmlparaend);  
 //    	$vid=null;
     	if(!isN($vid)){
@@ -66,22 +67,28 @@ class YouKuContent extends Content{
   		return false;
   	}
   	
-    private $p_videocodeApiUrl="http://v.youku.com/player/getM3U8/vid/{PROD_ID}/type/{mType}/ts/{now_date}/useKeyframe/0/v.m3u8";
+    private $p_videocodeApiUrl_new="http://v.youku.com/player/getM3U8/vid/{PROD_ID}/type/{mType}/ts/{now_date}/useKeyframe/0/v.m3u8";
+//    private $p_videocodeApiUrl_new="http://pl.youku.com/playlist/m3u8?ts={now_date}&keyframe=0&vid={PROD_ID}&type={mType}";
 	private $p_videourlstart="videoId = '";
 	private $p_videourlend="'";  //http://v.pptv.com/show/rOeRD3fdTYvubNQ.html
     public function parseIOSVideoUrl($url,$p_coding,$p_script){
-  		$content = getPage($url, $this->p_code);
-  		return $this->parseIOSVideoUrlByContent($content, $p_coding,$p_script);
+//  		$content = getPage($url, $this->p_code);
+  		return $this->parseIOSVideoUrlByContent($url, $p_coding,$p_script);
   	}
   	
-  	public function parseIOSVideoUrlByContent($content, $p_coding,$p_script){
-  	    $videoUrlParam = getBody($content,$this->p_videourlstart,$this->p_videourlend);
-  	    $videoUrlParam=replaceLine($videoUrlParam);
+  	public function parseIOSVideoUrlByContent($site_url, $p_coding,$p_script){
+//  	    $videoUrlParam = getBody($content,$this->p_videourlstart,$this->p_videourlend);
+//  	    $videoUrlParam=replaceLine($videoUrlParam);
 //  	    var_dump($videoUrlParam);
+        if(!isN($site_url) && preg_match('/id_(\w.+?).html/',$site_url)){
+            preg_match_all('/id_(\w.+?).html/',$site_url,$match);
+            $videoUrlParam = $match[1][0];
+        }
   	    if($videoUrlParam===false || $videoUrlParam==='' ){
   			return '';
   		}
-		$videoAddressUrl = replaceStr($this->p_videocodeApiUrl,"{PROD_ID}",$videoUrlParam);
+		$videoAddressUrl = replaceStr($this->p_videocodeApiUrl_new,"{PROD_ID}",$videoUrlParam);
+		$videoAddressUrl = replaceStr($videoAddressUrl,"{now_date}",time());
 		if(strpos($videoAddressUrl, MovieType::VIDEO_SEP_VERSION) !==false){
 			$videoAddressUrls=MovieType::TOP_CLEAR.MovieType::VIDEO_NAME_URL_SEP.replaceStr($videoAddressUrl,MovieType::VIDEO_SEP_VERSION,MovieType::TOP_CLEAR).MovieType::VIDEO_SEP_VERSION;
 		    $videoAddressUrls=$videoAddressUrls.MovieType::HIGH_CLEAR.MovieType::VIDEO_NAME_URL_SEP.replaceStr($videoAddressUrl,MovieType::VIDEO_SEP_VERSION,MovieType::HIGH_CLEAR).MovieType::VIDEO_SEP_VERSION;
