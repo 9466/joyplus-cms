@@ -10,8 +10,8 @@ require_once ("collect_fun.php");
 require_once("api_collect_youku_cj.php");
 headAdminCollect ("优酷视频采集");
 
-define("VIDEOS","https://openapi.youku.com/v2/shows/videos.json?client_id=&show_id={id}&page=1&count={count}");
-define("SHOWINFO","https://openapi.youku.com/v2/shows/show.json?client_id=&show_id={id}");
+define("VIDEOS","https://openapi.youku.com/v2/shows/videos.json?client_id=715115c589f8533a&show_id={id}&page=1&count={count}");
+define("SHOWINFO","https://openapi.youku.com/v2/shows/show.json?client_id=715115c589f8533a&show_id={id}");
 
 $action = be("get","action");
 
